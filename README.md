@@ -1,2 +1,3 @@
-# Fifteen
+# Tag Game - Пятнашки.
+
 Сourse project
