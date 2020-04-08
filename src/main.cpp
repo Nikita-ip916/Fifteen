@@ -1,5 +1,5 @@
-#include "gen.cpp"
-#include "out.cpp"
+#include "gen.h"
+#include "out.h"
 #include <ctime>
 #include <iostream>
 const int n = 5;
