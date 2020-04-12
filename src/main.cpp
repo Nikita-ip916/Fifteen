@@ -1,6 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "gen.h"
+#include "out.h"
+#include <ctime>
+#include <iostream>
+const int n = 5;
+using namespace std;
+#define DEBUG
+
 int main()
 {
-    printf("Hello, world!");
+    srand(time(0));
+
+    int** arr = new int*[n];
+    for (int i = 0; i < n; i++)
+        arr[i] = new int[n];
+    generateArray(arr, n);
+#ifdef DEBUG
+    outArray(arr, n);
+#endif
+    cout << endl;
 }
