@@ -4,7 +4,6 @@
 #include <iostream>
 const int n = 5;
 using namespace std;
-#define DEBUG
 
 int main()
 {
@@ -14,8 +13,6 @@ int main()
     for (int i = 0; i < n; i++)
         arr[i] = new int[n];
     generateArray(arr, n);
-#ifdef DEBUG
     outArray(arr, n);
-#endif
     cout << endl;
 }
