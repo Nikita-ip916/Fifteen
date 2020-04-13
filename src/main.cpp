@@ -11,7 +11,7 @@ using namespace sf;
 int main()
 {
     RenderWindow window(VideoMode(m, m), "test. kursach-TRPO");
-
+    Event event;
     Image numbersimage, othersimage;
     numbersimage.loadFromFile("Numbers.jpg");
     othersimage.loadFromFile("Others.jpg");
@@ -20,10 +20,10 @@ int main()
     numberstexture.loadFromImage(numbersimage);
     otherstexture.loadFromImage(othersimage);
 
-    Sprite numberssprite, scoresprite, restartsprite;
-    numberssprite.setTexture(numberstexture);
-    scoresprite.setTexture(otherstexture);
-    restartsprite.setTexture(otherstexture);
+    Sprite nmbr, scr, rsrt;
+    nmbr.setTexture(numberstexture);
+    scr.setTexture(otherstexture);
+    rsrt.setTexture(otherstexture);
 
     srand(time(0));
 
@@ -35,7 +35,6 @@ int main()
     outArray(arr, n);
     cout << endl;
     while (window.isOpen()) {
-        Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
