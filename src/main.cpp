@@ -13,8 +13,8 @@ int main()
     RenderWindow window(VideoMode(m, m), "test. kursach-TRPO");
     Event event;
     Image numbersimage, othersimage;
-    numbersimage.loadFromFile("src/Numbers.jpg");
-    othersimage.loadFromFile("src/Others.jpg");
+    numbersimage.loadFromFile("Numbers.jpg");
+    othersimage.loadFromFile("Others.jpg");
 
     Texture numberstexture, otherstexture;
     numberstexture.loadFromImage(numbersimage);
