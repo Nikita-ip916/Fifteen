@@ -48,6 +48,14 @@ int main()
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1; j++) {
+                nmbr.setTextureRect(IntRect(32 * j + 128 * i, 0, 32, 32));
+                window.draw(nmbr);
+                nmbr.move(32, 0);
+            }
+            nmbr.move(-128, 32);
+        }
         window.draw(scr);
         window.draw(rstrt);
         window.display();
