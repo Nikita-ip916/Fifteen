@@ -13,17 +13,19 @@ int main()
     RenderWindow window(VideoMode(m, m), "test. kursach-TRPO");
     Event event;
     Image numbersimage, othersimage;
-    numbersimage.loadFromFile("Numbers.jpg");
-    othersimage.loadFromFile("Others.jpg");
+    numbersimage.loadFromFile("src/Numbers.jpg");
+    othersimage.loadFromFile("src/Others.jpg");
 
     Texture numberstexture, otherstexture;
     numberstexture.loadFromImage(numbersimage);
     otherstexture.loadFromImage(othersimage);
 
-    Sprite nmbr, scr, rsrt;
+    Sprite nmbr, scr, rstrt;
     nmbr.setTexture(numberstexture);
     scr.setTexture(otherstexture);
-    rsrt.setTexture(otherstexture);
+    rstrt.setTexture(otherstexture);
+    scr.setTextureRect(IntRect(32, 0, 128, 32));
+    rstrt.setTextureRect(IntRect(0, 0, 32, 32));
 
     srand(time(0));
 
@@ -35,14 +37,20 @@ int main()
     outArray(arr, n);
     cout << endl;
     while (window.isOpen()) {
+        nmbr.setPosition(32, 32);
+        scr.setPosition(32, 160);
+        rstrt.setPosition(160, 128);
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
             }
         }
-
-        window.clear();
-        window.draw(shape);
+        if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+            window.close();
+        }
+        window.draw(scr);
+        window.draw(rstrt);
         window.display();
+        window.clear();
     }
 }
