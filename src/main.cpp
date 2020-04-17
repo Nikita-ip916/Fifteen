@@ -27,7 +27,11 @@ int main()
     rstrt.setTexture(otherstexture);
     scr.setTextureRect(IntRect(32, 0, 128, 32));
     rstrt.setTextureRect(IntRect(0, 0, 32, 32));
-
+    Font font;
+    font.loadFromFile("TimesNewRoman.ttf");
+    Text text("", font, 20);
+    text.setColor(Color::White);
+    text.setStyle(Text::Bold);
     Clock clock;
 
     srand(time(0));
