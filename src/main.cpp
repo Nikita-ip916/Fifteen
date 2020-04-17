@@ -2,9 +2,15 @@
 #include "out.hpp"
 #include <SFML/Graphics.hpp>
 #include <ctime>
+#include <iomanip>
 #include <iostream>
+<<<<<<< HEAD
 const int width = 192;
 const int height = 224;
+||||||| merged common ancestors
+=======
+#include <sstream>
+>>>>>>> Created output of seconds in ss format
 const int n = 5;
 using namespace std;
 using namespace sf;
@@ -30,7 +36,6 @@ int main()
     Font font;
     font.loadFromFile("TimesNewRoman.ttf");
     Text text("", font, 20);
-    text.setColor(Color::White);
     text.setStyle(Text::Bold);
     Clock clock;
 
@@ -70,8 +75,13 @@ int main()
                 window.draw(nmbr);
             }
         }
+        ostringstream Sec;
+        Sec << setfill('0') << setw(2) << time;
+        text.setString(Sec.str());
+        text.setPosition(0, 0);
         scr.setPosition(32, 160);
         rstrt.setPosition(160, 128);
+        window.draw(text);
         window.draw(scr);
         window.draw(rstrt);
         window.display();
