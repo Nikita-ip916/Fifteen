@@ -28,6 +28,8 @@ int main()
     scr.setTextureRect(IntRect(32, 0, 128, 32));
     rstrt.setTextureRect(IntRect(0, 0, 32, 32));
 
+    Clock clock;
+
     srand(time(0));
 
     int** arr = new int*[n];
@@ -41,7 +43,7 @@ int main()
         Vector2i pos = Mouse::getPosition(window);
         int x = pos.x / 32;
         int y = pos.y / 32;
-
+        int time = clock.getElapsedTime().asSeconds();
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
