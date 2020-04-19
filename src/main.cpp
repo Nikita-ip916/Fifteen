@@ -47,13 +47,18 @@ int main()
     for (int i = 0; i < 3; i++) {
         t[i] = 0;
     }
+    bool flag = false;
     while (window.isOpen()) {
         Vector2i pos = Mouse::getPosition(window);
         int x = pos.x / 32;
         int y = pos.y / 32;
         int mas[2]; // Gets coordinates of empty sprite
         int time = moveTimer.getElapsedTime().asMilliseconds();
-        t[0] = clock.getElapsedTime().asSeconds();
+        if (flag) {
+            t[0] = clock.getElapsedTime().asSeconds();
+        } else {
+            clock.restart();
+        }
         if (t[0] > 59) {
             clock.restart();
             t[1]++;
@@ -70,8 +75,10 @@ int main()
                 if (x == 5 && y == 4) {
                     generateArray(arr, n);
                     clock.restart();
-                    t[1] = 0;
-                    t[2] = 0;
+                    flag = false;
+                    for (int i = 0; i < 3; i++) {
+                        t[i] = 0;
+                    }
                 }
         }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
@@ -95,6 +102,7 @@ int main()
             arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] + 1];
             arr[mas[0]][mas[1] + 1] = 0;
             moveTimer.restart();
+            flag = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::D)
                  || Keyboard::isKeyPressed(Keyboard::Right))
@@ -102,6 +110,7 @@ int main()
             arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] - 1];
             arr[mas[0]][mas[1] - 1] = 0;
             moveTimer.restart();
+            flag = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::W)
                  || Keyboard::isKeyPressed(Keyboard::Up))
@@ -109,6 +118,7 @@ int main()
             arr[mas[0]][mas[1]] = arr[mas[0] + 1][mas[1]];
             arr[mas[0] + 1][mas[1]] = 0;
             moveTimer.restart();
+            flag = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::S)
                  || Keyboard::isKeyPressed(Keyboard::Down))
@@ -116,6 +126,7 @@ int main()
             arr[mas[0]][mas[1]] = arr[mas[0] - 1][mas[1]];
             arr[mas[0] - 1][mas[1]] = 0;
             moveTimer.restart();
+            flag = true;
         }
         ostringstream Out;
         Out << setfill('0') << setw(2) << t[2] << ":" << setfill('0') << setw(2)
