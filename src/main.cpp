@@ -3,14 +3,15 @@
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <iostream>
+const int width = 192;
+const int height = 224;
 const int n = 5;
-#define m 224
 using namespace std;
 using namespace sf;
 
 int main()
 {
-    RenderWindow window(VideoMode(m, m), "test. kursach-TRPO");
+    RenderWindow window(VideoMode(width, height), "TagGame");
     Event event;
     Image numbersimage, othersimage;
     numbersimage.loadFromFile("Numbers.jpg");
@@ -34,13 +35,22 @@ int main()
         arr[i] = new int[n];
     }
     generateArray(arr, n);
-    outArray(arr, n);
     cout << endl;
+
     while (window.isOpen()) {
+        Vector2i pos = Mouse::getPosition(window);
+        int x = pos.x / 32;
+        int y = pos.y / 32;
+
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
             }
+            if (event.type == Event::MouseButtonPressed)
+                if (x == 5 && y == 4) {
+                    generateArray(arr, n);
+                    // Очистка секундомера
+                }
         }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
