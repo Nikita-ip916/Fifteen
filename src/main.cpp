@@ -1,16 +1,17 @@
-#include "gen.h"
-#include "out.h"
+#include "gen.hpp"
+#include "out.hpp"
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <iostream>
+const int width = 192;
+const int height = 224;
 const int n = 5;
-#define m 192
 using namespace std;
 using namespace sf;
 
 int main()
 {
-    RenderWindow window(VideoMode(m, m), "test. kursach-TRPO");
+    RenderWindow window(VideoMode(width, height), "TagGame");
     Event event;
     Image numbersimage, othersimage;
     numbersimage.loadFromFile("Numbers.jpg");
@@ -34,31 +35,39 @@ int main()
         arr[i] = new int[n];
     }
     generateArray(arr, n);
-    outArray(arr, n);
     cout << endl;
+
     while (window.isOpen()) {
-        nmbr.setPosition(32, 32);
-        scr.setPosition(32, 160);
-        rstrt.setPosition(160, 128);
+        Vector2i pos = Mouse::getPosition(window);
+        int x = pos.x / 32;
+        int y = pos.y / 32;
+
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
             }
+            if (event.type == Event::MouseButtonPressed)
+                if (x == 5 && y == 4) {
+                    generateArray(arr, n);
+                    // Очистка секундомера
+                }
         }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - 1; j++) {
-                nmbr.setTextureRect(IntRect(32 * j + 128 * i, 0, 32, 32));
+
+        window.clear(Color::Black);
+        for (int i = 1; i < 5; i++) {
+            for (int j = 1; j < 5; j++) {
+                nmbr.setTextureRect(IntRect(32 * arr[j][i], 0, 32, 32));
+                nmbr.setPosition(32 * i, 32 * j);
                 window.draw(nmbr);
-                nmbr.move(32, 0);
             }
-            nmbr.move(-128, 32);
         }
+        scr.setPosition(32, 160);
+        rstrt.setPosition(160, 128);
         window.draw(scr);
         window.draw(rstrt);
         window.display();
-        window.clear();
     }
 }
