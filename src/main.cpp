@@ -76,18 +76,9 @@ int main()
                     t[2] = 0;
                 }
         }
-        if (Keyboard::isKeyPressed(Keyboard::A) && mas[0] != 4) {
-        }
-        if (Keyboard::isKeyPressed(Keyboard::D)) {
-        }
-        if (Keyboard::isKeyPressed(Keyboard::W)) {
-        }
-        if (Keyboard::isKeyPressed(Keyboard::S)) {
-        }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
-
         window.clear(Color::Black);
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 5; j++) {
@@ -99,6 +90,20 @@ int main()
                     mas[1] = i;
                 }
             }
+        }
+        if ((Keyboard::isKeyPressed(Keyboard::A))
+            || (Keyboard::isKeyPressed(Keyboard::Left)) && mas[1] < 4) {
+            arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] + 1];
+            arr[mas[0]][mas[1] + 1] = 0;
+        }
+        if ((Keyboard::isKeyPressed(Keyboard::D))
+            || (Keyboard::isKeyPressed(Keyboard::Right)) && mas[1] > 1) {
+        }
+        if ((Keyboard::isKeyPressed(Keyboard::W))
+            || (Keyboard::isKeyPressed(Keyboard::Up)) && mas[0] < 4) {
+        }
+        if ((Keyboard::isKeyPressed(Keyboard::S))
+            || (Keyboard::isKeyPressed(Keyboard::Down)) && mas[0] < 4) {
         }
         ostringstream Out;
         Out << setfill('0') << setw(2) << t[2] << ":" << setfill('0') << setw(2)
