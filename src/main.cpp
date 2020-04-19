@@ -51,6 +51,10 @@ int main()
         Vector2i pos = Mouse::getPosition(window);
         int x = pos.x / 32;
         int y = pos.y / 32;
+        int mas[2]; // Gets coordinates of empty sprite
+        for (int i = 0; i < 2; i++) {
+            mas[i] = 0;
+        }
         t[0] = clock.getElapsedTime().asSeconds();
         if (t[0] > 59) {
             clock.restart();
@@ -72,6 +76,14 @@ int main()
                     t[2] = 0;
                 }
         }
+        if (Keyboard::isKeyPressed(Keyboard::A) && mas[0] != 4) {
+        }
+        if (Keyboard::isKeyPressed(Keyboard::D)) {
+        }
+        if (Keyboard::isKeyPressed(Keyboard::W)) {
+        }
+        if (Keyboard::isKeyPressed(Keyboard::S)) {
+        }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
@@ -82,6 +94,10 @@ int main()
                 nmbr.setTextureRect(IntRect(32 * arr[j][i], 0, 32, 32));
                 nmbr.setPosition(32 * i, 32 * j);
                 window.draw(nmbr);
+                if (arr[j][i] == 0) {
+                    mas[0] = j;
+                    mas[1] = i;
+                }
             }
         }
         ostringstream Out;
