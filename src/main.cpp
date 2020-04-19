@@ -52,9 +52,6 @@ int main()
         int x = pos.x / 32;
         int y = pos.y / 32;
         int mas[2]; // Gets coordinates of empty sprite
-        for (int i = 0; i < 2; i++) {
-            mas[i] = 0;
-        }
         int time = moveTimer.getElapsedTime().asMilliseconds();
         t[0] = clock.getElapsedTime().asSeconds();
         if (t[0] > 59) {
