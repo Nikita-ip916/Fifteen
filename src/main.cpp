@@ -55,7 +55,7 @@ int main()
         for (int i = 0; i < 2; i++) {
             mas[i] = 0;
         }
-        int time = moveTimer.getElapsedTime().asSeconds();
+        int time = moveTimer.getElapsedTime().asMilliseconds();
         t[0] = clock.getElapsedTime().asSeconds();
         if (t[0] > 59) {
             clock.restart();
@@ -94,28 +94,28 @@ int main()
         }
         if ((Keyboard::isKeyPressed(Keyboard::A)
              || Keyboard::isKeyPressed(Keyboard::Left))
-            && mas[1] < 4 && time > 0) {
+            && mas[1] < 4 && time > 250) {
             arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] + 1];
             arr[mas[0]][mas[1] + 1] = 0;
             moveTimer.restart();
-        }
-        if ((Keyboard::isKeyPressed(Keyboard::D)
-             || Keyboard::isKeyPressed(Keyboard::Right))
-            && mas[1] > 1 && time > 0) {
+        } else if (
+                (Keyboard::isKeyPressed(Keyboard::D)
+                 || Keyboard::isKeyPressed(Keyboard::Right))
+                && mas[1] > 1 && time > 250) {
             arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] - 1];
             arr[mas[0]][mas[1] - 1] = 0;
             moveTimer.restart();
-        }
-        if ((Keyboard::isKeyPressed(Keyboard::W)
-             || Keyboard::isKeyPressed(Keyboard::Up))
-            && mas[0] < 4 && time > 0) {
+        } else if (
+                (Keyboard::isKeyPressed(Keyboard::W)
+                 || Keyboard::isKeyPressed(Keyboard::Up))
+                && mas[0] < 4 && time > 250) {
             arr[mas[0]][mas[1]] = arr[mas[0] + 1][mas[1]];
             arr[mas[0] + 1][mas[1]] = 0;
             moveTimer.restart();
-        }
-        if ((Keyboard::isKeyPressed(Keyboard::S)
-             || Keyboard::isKeyPressed(Keyboard::Down))
-            && mas[0] > 1 && time > 0) {
+        } else if (
+                (Keyboard::isKeyPressed(Keyboard::S)
+                 || Keyboard::isKeyPressed(Keyboard::Down))
+                && mas[0] > 1 && time > 250) {
             arr[mas[0]][mas[1]] = arr[mas[0] - 1][mas[1]];
             arr[mas[0] - 1][mas[1]] = 0;
             moveTimer.restart();
