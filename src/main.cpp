@@ -43,19 +43,22 @@ int main()
     }
     generateArray(arr, n);
     cout << endl;
-    int timem = 0, timeh = 0;
+    int t[3];
+    for (int i = 0; i < 3; i++) {
+        t[i] = 0;
+    }
     while (window.isOpen()) {
         Vector2i pos = Mouse::getPosition(window);
         int x = pos.x / 32;
         int y = pos.y / 32;
-        int time = clock.getElapsedTime().asSeconds();
-        if (time > 59) {
+        t[0] = clock.getElapsedTime().asSeconds();
+        if (t[0] > 59) {
             clock.restart();
-            timem++;
+            t[1]++;
         }
-        if (timem > 59) {
-            timem = 0;
-            timeh++;
+        if (t[1] > 59) {
+            t[1] = 0;
+            t[2]++;
         }
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
@@ -65,8 +68,8 @@ int main()
                 if (x == 5 && y == 4) {
                     generateArray(arr, n);
                     clock.restart();
-                    timem = 0;
-                    timeh = 0;
+                    t[1] = 0;
+                    t[2] = 0;
                 }
         }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
@@ -82,8 +85,8 @@ int main()
             }
         }
         ostringstream Out;
-        Out << setfill('0') << setw(2) << timeh << ":" << setfill('0')
-            << setw(2) << timem << ":" << setfill('0') << setw(2) << time;
+        Out << setfill('0') << setw(2) << t[2] << ":" << setfill('0') << setw(2)
+            << t[1] << ":" << setfill('0') << setw(2) << t[0];
         text.setString(Out.str());
         text.setPosition(32, 0);
         scr.setPosition(32, 160);
