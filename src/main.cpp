@@ -4,13 +4,9 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
-<<<<<<< HEAD
+#include <sstream>
 const int width = 192;
 const int height = 224;
-||||||| merged common ancestors
-=======
-#include <sstream>
->>>>>>> Created output of seconds in ss format
 const int n = 5;
 using namespace std;
 using namespace sf;
