@@ -64,7 +64,9 @@ int main()
             if (event.type == Event::MouseButtonPressed)
                 if (x == 5 && y == 4) {
                     generateArray(arr, n);
-                    // Очистка секундомера
+                    clock.restart();
+                    timem = 0;
+                    timeh = 0;
                 }
         }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
