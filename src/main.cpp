@@ -101,15 +101,24 @@ int main()
         }
         if ((Keyboard::isKeyPressed(Keyboard::D)
              || Keyboard::isKeyPressed(Keyboard::Right))
-            && mas[1] > 1) {
+            && mas[1] > 1 && time > 0) {
+            arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] - 1];
+            arr[mas[0]][mas[1] - 1] = 0;
+            moveTimer.restart();
         }
         if ((Keyboard::isKeyPressed(Keyboard::W)
              || Keyboard::isKeyPressed(Keyboard::Up))
-            && mas[0] < 4) {
+            && mas[0] < 4 && time > 0) {
+            arr[mas[0]][mas[1]] = arr[mas[0] + 1][mas[1]];
+            arr[mas[0] + 1][mas[1]] = 0;
+            moveTimer.restart();
         }
         if ((Keyboard::isKeyPressed(Keyboard::S)
              || Keyboard::isKeyPressed(Keyboard::Down))
-            && mas[0] < 4) {
+            && mas[0] > 1 && time > 0) {
+            arr[mas[0]][mas[1]] = arr[mas[0] - 1][mas[1]];
+            arr[mas[0] - 1][mas[1]] = 0;
+            moveTimer.restart();
         }
         ostringstream Out;
         Out << setfill('0') << setw(2) << t[2] << ":" << setfill('0') << setw(2)
