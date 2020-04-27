@@ -15,7 +15,7 @@ using namespace sf;
 
 int main()
 {
-    RenderWindow window(VideoMode(width, height), "TagGame");
+    RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
     Event event;
     Image numbersimage, othersimage;
     numbersimage.loadFromFile("Numbers.jpg");
