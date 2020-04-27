@@ -7,4 +7,7 @@ void stopWatch(int* t)
         t[1] = 0;
         t[2]++;
     }
+    if (t[2] > 23) {
+        t[2] = 0;
+    }
 }
