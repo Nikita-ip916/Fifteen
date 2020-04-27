@@ -1,4 +1,5 @@
 #include "gen.hpp"
+#include "move.hpp"
 #include "out.hpp"
 #include "stopwatch.hpp"
 #include <SFML/Graphics.hpp>
@@ -14,7 +15,7 @@ using namespace sf;
 
 int main()
 {
-    RenderWindow window(VideoMode(width, height), "TagGame");
+    RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
     Event event;
     Image numbersimage, othersimage;
     numbersimage.loadFromFile("Numbers.jpg");
@@ -51,6 +52,7 @@ int main()
     bool flag = false;
     while (window.isOpen()) {
         Vector2i pos = Mouse::getPosition(window);
+        int dir = 0;
         int x = pos.x / 32;
         int y = pos.y / 32;
         int mas[2]; // Gets coordinates of empty sprite
@@ -95,33 +97,33 @@ int main()
         }
         if ((Keyboard::isKeyPressed(Keyboard::A)
              || Keyboard::isKeyPressed(Keyboard::Left))
-            && mas[1] < 4 && time > 250) {
-            arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] + 1];
-            arr[mas[0]][mas[1] + 1] = 0;
+            && time > 250) {
+            dir = 1;
+            moveF(dir, arr, n, mas);
             moveTimer.restart();
             flag = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::D)
                  || Keyboard::isKeyPressed(Keyboard::Right))
-                && mas[1] > 1 && time > 250) {
-            arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] - 1];
-            arr[mas[0]][mas[1] - 1] = 0;
+                && time > 250) {
+            dir = 2;
+            moveF(dir, arr, n, mas);
             moveTimer.restart();
             flag = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::W)
                  || Keyboard::isKeyPressed(Keyboard::Up))
                 && mas[0] < 4 && time > 250) {
-            arr[mas[0]][mas[1]] = arr[mas[0] + 1][mas[1]];
-            arr[mas[0] + 1][mas[1]] = 0;
+            dir = 3;
+            moveF(dir, arr, n, mas);
             moveTimer.restart();
             flag = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::S)
                  || Keyboard::isKeyPressed(Keyboard::Down))
                 && mas[0] > 1 && time > 250) {
-            arr[mas[0]][mas[1]] = arr[mas[0] - 1][mas[1]];
-            arr[mas[0] - 1][mas[1]] = 0;
+            dir = 4;
+            moveF(dir, arr, n, mas);
             moveTimer.restart();
             flag = true;
         }
