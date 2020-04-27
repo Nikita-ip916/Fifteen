@@ -1,5 +1,6 @@
 #include "gen.hpp"
 #include "out.hpp"
+#include "stopwatch.hpp"
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <iomanip>
@@ -59,13 +60,9 @@ int main()
         } else {
             clock.restart();
         }
+        stopWatch(t);
         if (t[0] > 59) {
             clock.restart();
-            t[1]++;
-        }
-        if (t[1] > 59) {
-            t[1] = 0;
-            t[2]++;
         }
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {

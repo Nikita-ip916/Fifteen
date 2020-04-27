@@ -9,6 +9,7 @@ all:
 		$(CC) -o $(DIR)/main.o $(CFLAGS) $(DIR3)/main.cpp
 		$(CC) -o $(DIR)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
 		$(CC) -o $(DIR)/out.o $(CFLAGS) $(DIR3)/out.cpp
+		$(CC) -o $(DIR)/stopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
 		$(CC) $(DIR)/*.o -o $(DIR2)/$(OUT) $(SFML)
 
 clean:
