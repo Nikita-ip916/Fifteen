@@ -5,12 +5,11 @@ OUT = out
 DIR = build
 DIR2 = bin
 DIR3 = src
-.PHONY: all install prog clean
+SFML2 = -I SFML-2.5.1/include
+.PHONY: all prog clean
 all: prog
-install:
-		sudo apt-get install libsfml-dev
 prog:
-		$(CC) -o $(DIR)/main.o $(CFLAGS) $(DIR3)/main.cpp
+		$(CC) -o $(DIR)/main.o $(SFML2) $(CFLAGS) $(DIR3)/main.cpp
 		$(CC) -o $(DIR)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
 		$(CC) -o $(DIR)/out.o $(CFLAGS) $(DIR3)/out.cpp
 		$(CC) -o $(DIR)/stopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp

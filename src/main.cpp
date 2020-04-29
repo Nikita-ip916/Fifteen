@@ -1,8 +1,8 @@
+#include "SFML/Graphics.hpp"
 #include "gen.hpp"
 #include "move.hpp"
 #include "out.hpp"
 #include "stopwatch.hpp"
-#include <SFML/Graphics.hpp>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
