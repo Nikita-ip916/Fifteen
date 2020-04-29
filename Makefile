@@ -5,8 +5,10 @@ OUT = out
 DIR = build
 DIR2 = bin
 DIR3 = src
-.PHONY: all prog clean
+.PHONY: all install prog clean
 all: prog
+install:
+		sudo apt-get install libsfml-dev
 prog:
 		$(CC) -o $(DIR)/main.o $(CFLAGS) $(DIR3)/main.cpp
 		$(CC) -o $(DIR)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
