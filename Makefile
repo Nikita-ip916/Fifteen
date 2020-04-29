@@ -5,14 +5,15 @@ OUT = out
 DIR = build
 DIR2 = bin
 DIR3 = src
-all:
+.PHONY: all prog clean
+all: prog
+prog:
 		$(CC) -o $(DIR)/main.o $(CFLAGS) $(DIR3)/main.cpp
 		$(CC) -o $(DIR)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
 		$(CC) -o $(DIR)/out.o $(CFLAGS) $(DIR3)/out.cpp
 		$(CC) -o $(DIR)/stopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
 		$(CC) -o $(DIR)/move.o $(CFLAGS) $(DIR3)/move.cpp
 		$(CC) $(DIR)/*.o -o $(DIR2)/$(OUT) $(SFML)
-
 clean:
 		rm -rf $(DIR2)/$(OUT)
 		rm -rf $(DIR)/*.o
