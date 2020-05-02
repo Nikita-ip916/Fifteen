@@ -1,20 +1,27 @@
 CC = g++
 CFLAGS = -Wall -Werror -c
 SFML = -lsfml-graphics -lsfml-window -lsfml-system
+SFML2 = -I SFML-2.5.1/include -L SFML-2.5.1/lib
 OUT = out
 DIR = build
 DIR2 = bin
 DIR3 = src
-SFML2 = -I SFML-2.5.1/include -L SFML-2.5.1/lib
-.PHONY: all prog clean
-all: prog
+DIR4 = test
+PRE = cxxtestgen --error-printer
+RUN = runner
+.PHONY: all prog test clean
+all: prog test
 prog:
-		$(CC) -o $(DIR)/main.o $(SFML2) $(CFLAGS) $(DIR3)/main.cpp
-		$(CC) -o $(DIR)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
-		$(CC) -o $(DIR)/out.o $(CFLAGS) $(DIR3)/out.cpp
-		$(CC) -o $(DIR)/stopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
-		$(CC) -o $(DIR)/move.o $(CFLAGS) $(DIR3)/move.cpp
-		$(CC) $(DIR)/*.o -o $(DIR2)/$(OUT) $(SFML2) $(SFML)
+		$(CC) -o $(DIR)/$(DIR3)/main.o $(SFML2) $(CFLAGS) $(DIR3)/main.cpp
+		$(CC) -o $(DIR)/$(DIR3)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
+		$(CC) -o $(DIR)/$(DIR3)/out.o $(CFLAGS) $(DIR3)/out.cpp
+		$(CC) -o $(DIR)/$(DIR3)/stopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
+		$(CC) -o $(DIR)/$(DIR3)/move.o $(CFLAGS) $(DIR3)/move.cpp
+		$(CC) $(DIR)/$(DIR3)/*.o -o $(DIR2)/$(OUT) $(SFML2) $(SFML)
+		$(PRE) -o $(DIR)/$(DIR4)/$(RUN).cpp $(DIR4)/MyTestSuite.h
+		$(CC) -o $(DIR2)/$(RUN) -I $(DIR4) $(DIR)/$(DIR4)/$(RUN).cpp
+test:
+		./$(DIR2)/$(RUN)
 clean:
-		rm -rf $(DIR2)/$(OUT)
-		rm -rf $(DIR)/*.o
+		rm -rf $(DIR2)/$(OUT) $(DIR2)/$(RUN)
+		rm -rf $(DIR)/$(DIR3)/*.o $(DIR)/$(DIR4)/*.cpp
