@@ -1,5 +1,6 @@
 dist: xenial
-
+install:
+  - sudo apt-get --no-install-recommends -y install cxxtest
 script:
   - make
   - git ls-files src/ | xargs clang-format -i && git diff --exit-code
