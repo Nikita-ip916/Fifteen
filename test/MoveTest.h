@@ -25,7 +25,7 @@ public:
         }
         mas[0] = mas[1] = 1;
         exp[1][2] = 0;
-        exp[1][1] = 1;
+        exp[1][1] = arr[1][2];
         moveF(dir, arr, n, mas);
         for (i = 1; i < n; i++) {
             for (j = 1; j < n; j++) {
