@@ -10,12 +10,15 @@ class MoveTest : public CxxTest::TestSuite {
     int **arr = new int *[n], **exp = new int *[n];
 
 public:
-    void test_left_correctL(void)
+    void test_init_dinamic_matrix(void)
     {
-        for (i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             arr[i] = new int[n];
             exp[i] = new int[n];
         }
+    }
+    void test_left_correctL(void)
+    {
         dir = 1;
         for (i = 1; i < n; i++) {
             for (j = 1; j < n; j++) {
@@ -35,10 +38,6 @@ public:
     }
     void test_left_correctR(void)
     {
-        for (i = 0; i < n; i++) {
-            arr[i] = new int[n];
-            exp[i] = new int[n];
-        }
         dir = 1;
         for (i = 1; i < n; i++) {
             for (j = 1; j < n; j++) {
