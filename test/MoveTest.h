@@ -178,4 +178,164 @@ public:
             }
         }
     }
+    void test_up_correctU(void)
+    {
+        dir = 3;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        mas[0] = mas[1] = 1;
+        exp[1][1] = arr[2][1];
+        exp[2][1] = 0;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
+    void test_up_correctD(void)
+    {
+        dir = 3;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        arr[1][1] = exp[1][1] = arr[3][1];
+        arr[3][1] = exp[3][1] = 0;
+        mas[0] = 3;
+        mas[1] = 1;
+        exp[3][1] = arr[4][1];
+        exp[4][1] = 0;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
+    void test_up_wrongU(void)
+    {
+        dir = 3;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        mas[0] = 0;
+        mas[1] = 1;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
+    void test_up_wrongD(void)
+    {
+        dir = 3;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        arr[1][1] = exp[1][1] = arr[4][1];
+        arr[4][1] = exp[4][1] = 0;
+        mas[0] = 4;
+        mas[1] = 1;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
+    void test_down_correctU(void)
+    {
+        dir = 4;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        arr[1][1] = exp[1][1] = arr[2][1];
+        arr[2][1] = exp[2][1] = 0;
+        mas[0] = 2;
+        mas[1] = 1;
+        exp[2][1] = arr[1][1];
+        exp[1][1] = 0;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
+    void test_down_correctD(void)
+    {
+        dir = 4;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        arr[1][1] = exp[1][1] = arr[4][1];
+        arr[4][1] = exp[4][1] = 0;
+        mas[0] = 4;
+        mas[1] = 1;
+        exp[4][1] = arr[3][1];
+        exp[3][1] = 0;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
+    void test_down_wrongU(void)
+    {
+        dir = 4;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        mas[0] = mas[1] = 1;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
+    void test_down_wrongD(void)
+    {
+        dir = 4;
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                arr[i][j] = j + 4 * (i - 1) - 1;
+                exp[i][j] = j + 4 * (i - 1) - 1;
+            }
+        }
+        arr[1][1] = exp[1][1] = arr[4][1];
+        arr[4][1] = exp[4][1] = 0;
+        mas[0] = 5;
+        mas[1] = 1;
+        moveF(dir, arr, n, mas);
+        for (i = 1; i < n; i++) {
+            for (j = 1; j < n; j++) {
+                TS_ASSERT_EQUALS(exp[i][j], arr[i][j]);
+            }
+        }
+    }
 };
