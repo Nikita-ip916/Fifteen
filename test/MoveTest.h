@@ -17,7 +17,7 @@ public:
             exp[i] = new int[n];
         }
     }
-    void test_left_correctL(void)
+    void test_left_correctL(void) // леваяКлавиша_правильныйХод_леваяГрЭквив
     {
         dir = 1;
         for (i = 1; i < n; i++) {
@@ -58,7 +58,7 @@ public:
             }
         }
     }
-    void test_left_wrongL(void)
+    void test_left_wrongL(void) // леваяКлавиша_ходВнеГраницПоля_леваяГрЭквив
     {
         dir = 1;
         for (i = 1; i < n; i++) {
@@ -96,7 +96,7 @@ public:
             }
         }
     }
-    void test_right_correctL(void)
+    void test_right_correctL(void) // праваяКлавиша_правильныйХод_леваяГрЭквив
     {
         dir = 2;
         for (i = 1; i < n; i++) {
@@ -177,7 +177,7 @@ public:
             }
         }
     }
-    void test_up_correctU(void)
+    void test_up_correctU(void) // верхняяКлавиша_правильныйХод_верхняяГрЭквив
     {
         dir = 3;
         for (i = 1; i < n; i++) {
@@ -256,7 +256,7 @@ public:
             }
         }
     }
-    void test_down_correctU(void)
+    void test_down_correctU(void) // нижняяКлавиша_правильныйХод_верхняяГрЭквив
     {
         dir = 4;
         for (i = 1; i < n; i++) {
