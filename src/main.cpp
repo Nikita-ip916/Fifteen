@@ -62,10 +62,10 @@ int main()
         } else {
             clock.restart();
         }
-        stopWatch(t);
         if (t[0] > 59) {
             clock.restart();
         }
+        stopWatch(t);
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
