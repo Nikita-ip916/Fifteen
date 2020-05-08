@@ -15,11 +15,11 @@ prog:
 		$(CC) -o $(DIR)/$(DIR3)/main.o $(SFML2) $(CFLAGS) $(DIR3)/main.cpp
 		$(CC) -o $(DIR)/$(DIR3)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
 		$(CC) -o $(DIR)/$(DIR3)/out.o $(CFLAGS) $(DIR3)/out.cpp
-		$(CC) -o $(DIR)/$(DIR3)/stopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
-		$(CC) -o $(DIR)/$(DIR3)/move.o $(CFLAGS) $(DIR3)/move.cpp
+		$(CC) -o $(DIR)/$(DIR3)/tstopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
+		$(CC) -o $(DIR)/$(DIR3)/tmove.o $(CFLAGS) $(DIR3)/move.cpp
 		$(CC) $(DIR)/$(DIR3)/*.o -o $(DIR2)/$(OUT) $(SFML2) $(SFML)
-		$(PRE) -o $(DIR)/$(DIR4)/$(RUN).cpp $(DIR4)/MoveTest.h
-		$(CC) -I $(DIR4) -I $(DIR3) $(DIR)/$(DIR4)/$(RUN).cpp $(DIR)/$(DIR3)/move.o -o $(DIR2)/$(RUN)
+		$(PRE) -o $(DIR)/$(DIR4)/$(RUN).cpp $(DIR4)/*.h
+		$(CC) -I $(DIR4) -I $(DIR3) $(DIR)/$(DIR4)/$(RUN).cpp $(DIR)/$(DIR3)/t*.o -o $(DIR2)/$(RUN)
 test:
 		./$(DIR2)/$(RUN) --help-tests
 		./$(DIR2)/$(RUN)
