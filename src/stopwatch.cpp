@@ -6,7 +6,7 @@ void stopWatch(int* t)
         t[0] = t[1] = t[2] = 0;
         cout << "\nError: negative time. Time reload." << endl;
     }
-    if (t[0] > 60 || t[1] > 60 || t[2] > 24) {
+    if (t[0] > 60 || t[1] > 59 || t[2] > 23) {
         t[0] = t[1] = t[2] = 0;
         cout << "\nError: Time out of range. Time reload." << endl;
     }
