@@ -17,19 +17,25 @@ int checkGeneration(int** matr, const int n)
     int chaos_index = 0, index = 0;
     int* duplicate = new int[16];
 
-    for (int i = 1; i < n; i++)
-        for (int j = 1; j < n; j++)
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j < n; j++) {
             duplicate[index++] = matr[i][j];
-
-    for (int i = 0; i < 16; i++)
-        if (duplicate[i])
-            for (int j = 0; j < i; j++)
-                if (duplicate[j] > duplicate[i])
+        }
+    }
+    for (int i = 0; i < 16; i++) {
+        if (duplicate[i]) {
+            for (int j = 0; j < i; j++) {
+                if (duplicate[j] > duplicate[i]) {
                     chaos_index++;
-    for (int i = 0; i < 16; ++i)
+                }
+            }
+        }
+    }
+    for (int i = 0; i < 16; ++i) {
         if (duplicate[i] == 0) {
             chaos_index += 1 + i / 4;
         }
+    }
 
     delete[] duplicate;
     return chaos_index;
@@ -41,8 +47,9 @@ void generateArray(int** matr, int n)
     for (int i = 1; i < n; i++) {
         for (int j = 1; j < n; j++) {
             matr[i][j] = c;
-            if (c++ == 16)
+            if (c++ == 16) {
                 matr[i][j] = 0;
+            }
         }
     }
 
