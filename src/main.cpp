@@ -1,5 +1,6 @@
 #include "SFML/Graphics.hpp"
 #include "gen.hpp"
+#include "leaderboard.hpp"
 #include "move.hpp"
 #include "out.hpp"
 #include "stopwatch.hpp"
