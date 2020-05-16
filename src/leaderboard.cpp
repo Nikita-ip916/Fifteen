@@ -3,38 +3,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <vector>
+#define nameflag (r.name.length() > 2 && r.name.length() < 11)
 using namespace std;
+const char ch = '\n';
 
 struct result {
     string name;
     int h;
     int m;
     int s;
-} r;
+};
 
-void getResult(int* t)
+void clearFile()
 {
-    fstream records("records.txt", ios::app | fstream::out | fstream::in);
-    string name;
-    if (records) {
-        do {
-            cout << "Введите имя: ";
-            cin >> name;
-            if (!(name.length() > 2 && name.length() < 11)) // Флаг длины имени
-                cout << "\nИмя не подходит под условия:\nДлина не менее 3 и не "
-                        "более 10 символов!\n";
-        } while (!(name.length() > 2 && name.length() < 11));
-        records << name << " " << t[0] << " " << t[1] << " " << t[2]
-                << '\n'; // Запись в файл: Имя и время через пробелы
-    } else {
-        cout << "\nФайл не найден.\n";
-    }
-    records.close();
+    ofstream file("records.txt", ofstream::out);
+    file << "";
+    file.close();
 }
 
-void sortResult()
+int countStr()
 {
-    fstream records("records.txt", ios::app | fstream::out | fstream::in);
+    ifstream records("records.txt");
     int count = 0;
     char* str = new char[500];
     while (records) {
@@ -42,64 +32,112 @@ void sortResult()
         count++;
     }
     delete[] str;
-    count--; // Убираем фактически пустую строку.
+    records.close();
+    return --count; // Убираем фактически пустую строку.
+}
 
-    result* data = new result[count];
-    string buffer;
-    for (int i = 0; i < count; i++) {
-        getline(records, buffer);
-        r.name = buffer;
-        buffer.clear();
-        // Т.к. getline считывает до пробела, то используем getline.
-        getline(records, buffer);
-        // atoi - переводит из string в int.
-        r.h = atoi(buffer.c_str());
-        getline(records, buffer);
-        r.s = atoi(buffer.c_str());
-        buffer.clear();
-        getline(records, buffer);
-        r.s = atoi(buffer.c_str());
-        buffer.clear();
-        data[i] = r;
-        // Но выводит всё равно нули, а имя - пустое.
-        cout << data[i].name << data[i].h << data[i].m << data[i].s << endl;
+void getResult(int* t, result& r, vector<result> vr)
+{
+    fstream records(
+            "records.txt",
+            ios::app | fstream::binary | fstream::out | fstream::in);
+    if (records) {
+        r.name = "JustBufferOfName";
+        while (!nameflag) {
+            cout << "Введите имя: ";
+            cin >> r.name;
+            if (!nameflag)
+                cout << "\nИмя не подходит под условия:\nДлина не менее 3 и не "
+                        "более 10 символов!\n";
+        }
+        r.h = t[0];
+        r.m = t[1];
+        r.s = t[2];
+        records << r.name << " " << r.h << " " << r.m << " " << r.s << '\n';
+    } else {
+        cout << "\nФайл не найден.\n";
     }
-    cout << endl;
-    // Здесь сортировка будет, но сначала решить проблему с записью в структуру.
-    for (int i = 0; i < count; i++) {
-        for (int j = 0; j < count; j++) {
-            if (data[i].h > data[j].h) {
-                swap(data[i].name, data[j].name);
-                swap(data[i].h, data[j].h);
-                swap(data[i].m, data[j].m);
-                swap(data[i].s, data[j].s);
-            } else {
-                if (data[i].m > data[j].m) {
-                    swap(data[i].name, data[j].name);
-                    swap(data[i].h, data[j].h);
-                    swap(data[i].m, data[j].m);
-                    swap(data[i].s, data[j].s);
-                } else {
-                    if (data[i].s > data[j].s) {
-                        swap(data[i].name, data[j].name);
-                        swap(data[i].h, data[j].h);
-                        swap(data[i].m, data[j].m);
-                        swap(data[i].s, data[j].s);
+    records.close();
+}
+
+void sortResult(vector<result>& vr, int n)
+{
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n - 1; j++) {
+            if (vr[j].h > vr[j + 1].h) {
+                swap(vr[j].name, vr[j + 1].name);
+                swap(vr[j].h, vr[j + 1].h);
+                swap(vr[j].m, vr[j + 1].m);
+                swap(vr[j].s, vr[j + 1].s);
+            } else if (vr[j].h == vr[j + 1].h) {
+                if (vr[j].m > vr[j + 1].m) {
+                    swap(vr[j].name, vr[j + 1].name);
+                    swap(vr[j].h, vr[j + 1].h);
+                    swap(vr[j].m, vr[j + 1].m);
+                    swap(vr[j].s, vr[j + 1].s);
+                } else if (vr[j].m == vr[j + 1].m) {
+                    if (vr[j].s > vr[j + 1].s) {
+                        swap(vr[j].name, vr[j + 1].name);
+                        swap(vr[j].h, vr[j + 1].h);
+                        swap(vr[j].m, vr[j + 1].m);
+                        swap(vr[j].s, vr[j + 1].s);
                     }
                 }
             }
         }
     }
-    delete[] data;
-    records.close();
 }
-// Просто для тестов.
-int main()
+
+void rewriteResult(result& r, vector<result> vr)
 {
-    // Сначала вводится время, а потом как в функциях.
-    int t[3];
-    cin >> t[0] >> t[1] >> t[2];
-    cout << endl;
-    getResult(t);
-    sortResult();
+    ifstream records(
+            "records.txt", ifstream::binary | ifstream::app | ifstream::in);
+    int c = countStr();
+    for (int i = 0; i < c; i++) {
+        records >> r.name >> r.h >> r.m >> r.s;
+        vr.push_back(r);
+    }
+    sortResult(vr, vr.size());
+    records.close();
+    clearFile();
+    ofstream newrecords("records.txt", ofstream::out);
+    int length = vr.size();
+    if (vr.size() > 5)
+        length = 5;
+    // Так как отображаться будут 5 лучших результатов,
+    // то смысла хранить остальные - нет.
+    for (int i = 0; i < length; i++) {
+        cout << vr[i].name << " " << vr[i].h << " " << vr[i].m << " " << vr[i].s
+             << '\n';
+        newrecords << vr[i].name << " " << vr[i].h << " " << vr[i].m << " "
+                   << vr[i].s << '\n';
+    }
+    newrecords.close();
 }
+/*
+ *  Описание функций:
+ *      - clearFile() - очищает файл для перезаписи.
+ *      - countStr() - подсчёт строк в файле.
+ *      - getResult(int* t, result& r, vector<result> vr){  - Сбор данных для
+ * новой записи.
+ *          t - время;
+ *          r - структура, по которой хранятся/считываются
+ * данные.
+ *          vr - вектор-структура для хранения записей.
+ *      }
+ *      - sortResult(vector<result>& vr, int n){ - Сортировка записей по времени
+ * результатов.
+ *          vr - вектор-структура для хранения записей.
+ *          n - размер вектор-структуры.
+ *      }
+ *      - rewriteResult(result& r, vector<result> vr){  - Перезапись данных.
+ *          r - структура для записей.
+ *          vr - вектор-структура для записей.
+ *      }
+ *
+ *    result r;
+ *    vector<result> vr;
+ *    int t[3];
+ *    getResult(t, r, vr);
+ *    rewriteResult(r, vr);
+ */
