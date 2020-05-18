@@ -7,4 +7,5 @@ int countStr();
 void getResult(int*, result&, std::vector<result>);
 void sortResult(std::vector<result>&, int);
 void rewriteResult(result&, std::vector<result>);
+void writeResult(result&, std::vector<result>);
 #endif

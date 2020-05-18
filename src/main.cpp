@@ -13,9 +13,17 @@ const int height = 224;
 const int n = 5;
 using namespace std;
 using namespace sf;
+struct result {
+    string name;
+    int h;
+    int m;
+    int s;
+};
 
 int main()
 {
+    vector<result> vr;
+    result r;
     RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
     Event event;
     Image numbersimage, othersimage;

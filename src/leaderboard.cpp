@@ -7,7 +7,6 @@
 #define nameflag (r.name.length() > 2 && r.name.length() < 11)
 using namespace std;
 const char ch = '\n';
-
 struct result {
     string name;
     int h;
@@ -113,7 +112,19 @@ void rewriteResult(result& r, vector<result> vr)
                    << vr[i].s << '\n';
     }
     newrecords.close();
+    vr.clear();
 }
+
+void writeResult(result& r, vector<result> vr)
+{
+    ifstream records(
+            "records.txt", ifstream::binary | ifstream::app | ifstream::in);
+    for (int i = 0; i < countStr(); i++) {
+        records >> r.name >> r.h >> r.m >> r.s;
+        vr.push_back(r);
+    }
+}
+
 /*
  *  Описание функций:
  *      - clearFile() - очищает файл для перезаписи.
@@ -134,10 +145,8 @@ void rewriteResult(result& r, vector<result> vr)
  *          r - структура для записей.
  *          vr - вектор-структура для записей.
  *      }
- *
- *    result r;
- *    vector<result> vr;
- *    int t[3];
- *    getResult(t, r, vr);
- *    rewriteResult(r, vr);
+ *      - writeResult(){
+ *          r - структура для записей.
+ *          vr - вектор-структура для записей.
+ *      }
  */
