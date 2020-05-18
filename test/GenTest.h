@@ -1,4 +1,6 @@
 #include "gen.hpp"
+#include <cstdlib>
+#include <ctime>
 #include <cxxtest/TestSuite.h>
 #include <iostream>
 using namespace std;
@@ -21,6 +23,7 @@ public:
             a[i] = 0;
             exp[i] = 1;
         }
+        srand(time(0));
         generateArray(arr, n);
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < n; j++) {
