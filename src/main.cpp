@@ -27,9 +27,22 @@ int main()
     RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
     Event event;
     Image numbersimage, othersimage;
-    numbersimage.loadFromFile("Numbers.jpg");
-    othersimage.loadFromFile("Others.jpg");
-
+    try {
+        if (!numbersimage.loadFromFile("Numbers.jpg")) {
+            throw 1;
+        }
+    } catch (int i) {
+        cout << "Error: Numbers.jpg not found. Exit programm." << endl;
+        return 1;
+    }
+    try {
+        if (!othersimage.loadFromFile("Others.jpg")) {
+            throw 1;
+        }
+    } catch (int i) {
+        cout << "Error: Others.jpg not found. Exit programm." << endl;
+        return 1;
+    }
     Texture numberstexture, otherstexture;
     numberstexture.loadFromImage(numbersimage);
     otherstexture.loadFromImage(othersimage);
@@ -41,7 +54,14 @@ int main()
     highScore.setTextureRect(IntRect(32, 0, 128, 32));
     restart.setTextureRect(IntRect(0, 0, 32, 32));
     Font font;
-    font.loadFromFile("TimesNewRoman.ttf");
+    try {
+        if (!font.loadFromFile("TimesNewRoman.ttf")) {
+            throw 1;
+        }
+    } catch (int i) {
+        cout << "Error: TimesNewRoman.ttf not found. Exit programm." << endl;
+        return 1;
+    }
     Text text("", font, 20);
     text.setStyle(Text::Bold);
     Clock clock, moveTimer;
