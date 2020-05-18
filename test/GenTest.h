@@ -4,13 +4,13 @@
 using namespace std;
 
 class GenTest : public CxxTest::TestSuite {
-    int n, a[16], exp[16], chaos_index, exp_index;
+    const int n = 5;
+    int a[16], exp[16], chaos_index, exp_index;
     int** arr = new int*[n];
 
 public:
     void test_init_dinamic_matrix(void)
     {
-        n = 5;
         for (int i = 0; i < n; i++) {
             arr[i] = new int[n];
         }
