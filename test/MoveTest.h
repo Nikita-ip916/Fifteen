@@ -2,9 +2,9 @@
 #include <cxxtest/TestSuite.h>
 #include <iostream>
 using namespace std;
-const int n = 5;
 
 class MoveTest : public CxxTest::TestSuite {
+    const int n = 5;
     int mas[2];
     int dir, i, j;
     int **arr = new int *[n], **exp = new int *[n];

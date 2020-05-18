@@ -13,7 +13,7 @@ RUN = runner
 all: prog
 prog:
 		$(CC) -o $(DIR)/$(DIR3)/main.o $(SFML2) $(CFLAGS) $(DIR3)/main.cpp
-		$(CC) -o $(DIR)/$(DIR3)/gen.o $(CFLAGS) $(DIR3)/gen.cpp
+		$(CC) -o $(DIR)/$(DIR3)/tgen.o $(CFLAGS) $(DIR3)/gen.cpp
 		$(CC) -o $(DIR)/$(DIR3)/out.o $(CFLAGS) $(DIR3)/out.cpp
 		$(CC) -o $(DIR)/$(DIR3)/tstopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
 		$(CC) -o $(DIR)/$(DIR3)/tmove.o $(CFLAGS) $(DIR3)/move.cpp
