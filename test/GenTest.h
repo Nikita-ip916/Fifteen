@@ -7,21 +7,20 @@ using namespace std;
 
 class GenTest : public CxxTest::TestSuite {
     const int n = 5;
-    int a[16], exp[16], chaos_index, exp_index;
-    int** arr = new int*[n];
+    int a[16], chaos_index, exp_index; // a - 'отмечает' присутствие i-го
+    int** arr = new int*[n]; // элемента в матрице
 
 public:
     void test_init_dinamic_matrix(void)
     {
         for (int i = 0; i < n; i++) {
-            arr[i] = new int[n];
+            arr[i] = new int[n]; // Реальная матрица
         }
     }
     void test_gen(void)
     {
         for (int i = 0; i < 16; i++) {
             a[i] = 0;
-            exp[i] = 1;
         }
         srand(time(0));
         generateArray(arr, n);
@@ -80,14 +79,14 @@ public:
             }
         }
         for (int i = 0; i < 16; i++) {
-            TS_ASSERT_EQUALS(exp[i], a[i]);
-        }
-    }
+            TS_ASSERT_EQUALS(1, a[i]); // 1 - элемент присутствует,
+        } // 0 - элемент отсутствует(ошибка),
+    }     // >1 - элементов несколько(ошибка).
     void test_check_gen_correct(void)
     {
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < n; j++) {
-                arr[i][j] = j + 4 * (i - 1);
+        for (int i = 1; i < n; i++) { // Создание решаемой комбинации
+            for (int j = 1; j < n; j++) { // эквивалентной всем остальным
+                arr[i][j] = j + 4 * (i - 1); // решаемым
                 if (j + 4 * (i - 1) == 16) {
                     arr[i][j] = 0;
                 }
@@ -99,16 +98,8 @@ public:
     }
     void test_check_gen_wrong(void)
     {
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < n; j++) {
-                arr[i][j] = j + 4 * (i - 1);
-                if (j + 4 * (i - 1) == 16) {
-                    arr[i][j] = 0;
-                }
-            }
-        }
-        arr[4][2] = 15;
-        arr[4][3] = 14;
+        arr[4][2] = 15; // Создание нерешаемой комбинации эквивалентной всем
+        arr[4][3] = 14; // остальным нерешаемым
         chaos_index = checkGeneration(arr, n);
         exp_index = 1;
         TS_ASSERT_EQUALS(exp_index, chaos_index % 2);
