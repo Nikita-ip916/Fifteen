@@ -4,81 +4,69 @@
 using namespace std;
 
 class StopWatchTest : public CxxTest::TestSuite {
-    int i, t[3], exp[3];
-
+    int i, t[3], exp[3]; // Массивы Реального и ожидаемого изменения времени
+                         // t[0] - секунды t[1] - минуты t[2] - часы
 public:
     void test_seconds_negValue()
     {
-        for (i = 0; i < 3; i++) {
-            t[i] = exp[i] = 0;
-        }
-        t[0] = -1;
+        for (i = 0; i < 3; i++) { // Исходное обнуление времени
+            t[i] = exp[i] = 0; //
+        }                      //
+        t[0] = -1; // В функцию передаётся отриц. значение времени
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
+        t[0] = 0; // Возврат в исходное обнуление
     }
     void test_minutes_negValue()
     {
-        for (i = 0; i < 3; i++) {
-            t[i] = exp[i] = 0;
-        }
         t[1] = -1;
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
+        t[1] = 0;
     }
     void test_hours_negValue()
     {
-        for (i = 0; i < 3; i++) {
-            t[i] = exp[i] = 0;
-        }
         t[2] = -1;
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
+        t[2] = 0;
     }
     void test_seconds_outofRange()
     {
-        for (i = 0; i < 3; i++) {
-            t[i] = exp[i] = 0;
-        }
         t[0] = 61;
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
+        t[0] = 0;
     }
     void test_minutes_outofRange()
     {
-        for (i = 0; i < 3; i++) {
-            t[i] = exp[i] = 0;
-        }
         t[1] = 60;
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
+        t[1] = 0;
     }
     void test_hours_outofRange()
     {
-        for (i = 0; i < 3; i++) {
-            t[i] = exp[i] = 0;
-        }
         t[2] = 24;
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
+        t[2] = 0;
     }
     void test_time_woutChangesL() // значения, проходя через ф-ю не меняются
                                   // левГрЭквив
     {
-        for (i = 0; i < 3; i++) {
-            t[i] = exp[i] = 0;
-        }
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
@@ -93,8 +81,8 @@ public:
         stopWatch(t);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
-        }
-    }
+        } // Сейчас и далее обнуление не обязательно, т.к. изменяются все
+    }     // разряды времени
     void test_minutes_changeL() // изменение минут левГрЭквив
     {
         t[0] = 60;
@@ -118,6 +106,7 @@ public:
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
+        t[0] = t[1] = exp[1] = 0;
     }
     void test_hours_changeL() // изменение часов левГрЭквив
     {
@@ -145,7 +134,7 @@ public:
             TS_ASSERT_EQUALS(exp[i], t[i]);
         }
     }
-    void test_time_restart() // сброс времени после 23:59:59 правГрЭквив
+    void test_time_restart() // сброс времени после 23:59:59
     {
         t[0] = 60;
         exp[0] = 0;
