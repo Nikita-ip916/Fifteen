@@ -12,14 +12,14 @@ using namespace std;
  * повторно, пока не будет решаться.
  */
 
-int checkGeneration(int** matr, const int n)
+int checkGeneration(int** gameBoard, const int n)
 {
     int chaos_index = 0, index = 0;
     int* duplicate = new int[16];
 
     for (int i = 1; i < n; i++) {
         for (int j = 1; j < n; j++) {
-            duplicate[index++] = matr[i][j];
+            duplicate[index++] = gameBoard[i][j];
         }
     }
     for (int i = 0; i < 16; i++) {
@@ -41,14 +41,14 @@ int checkGeneration(int** matr, const int n)
     return chaos_index;
 }
 
-void generateArray(int** matr, int n)
+void generateArray(int** gameBoard, int n)
 {
     int c = 1;
     for (int i = 1; i < n; i++) {
         for (int j = 1; j < n; j++) {
-            matr[i][j] = c;
+            gameBoard[i][j] = c;
             if (c++ == 16) {
-                matr[i][j] = 0;
+                gameBoard[i][j] = 0;
             }
         }
     }
@@ -59,8 +59,8 @@ void generateArray(int** matr, int n)
             for (int j = 1; j < n; j++) {
                 a = rand() % 4 + 1;
                 b = rand() % 4 + 1;
-                swap(matr[i][j], matr[a][b]);
+                swap(gameBoard[i][j], gameBoard[a][b]);
             }
         }
-    } while (checkGeneration(matr, n) % 2 != 0);
+    } while (checkGeneration(gameBoard, n) % 2 != 0);
 }

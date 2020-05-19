@@ -1,16 +1,20 @@
-void moveF(int dir, int** arr, const int n, int* mas)
+void moveF(int dir, int** gameBoard, const int n, int* emptyElem)
 {
-    if (dir == 1 && mas[1] < 4 && mas[1] > 0) {
-        arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] + 1];
-        arr[mas[0]][mas[1] + 1] = 0;
-    } else if (dir == 2 && mas[1] > 1 && mas[1] < 5) {
-        arr[mas[0]][mas[1]] = arr[mas[0]][mas[1] - 1];
-        arr[mas[0]][mas[1] - 1] = 0;
-    } else if (dir == 3 && mas[0] < 4 && mas[0] > 0) {
-        arr[mas[0]][mas[1]] = arr[mas[0] + 1][mas[1]];
-        arr[mas[0] + 1][mas[1]] = 0;
-    } else if (dir == 4 && mas[0] > 1 && mas[0] < 5) {
-        arr[mas[0]][mas[1]] = arr[mas[0] - 1][mas[1]];
-        arr[mas[0] - 1][mas[1]] = 0;
+    if (dir == 1 && emptyElem[1] < 4 && emptyElem[1] > 0) {
+        gameBoard[emptyElem[0]][emptyElem[1]]
+                = gameBoard[emptyElem[0]][emptyElem[1] + 1];
+        gameBoard[emptyElem[0]][emptyElem[1] + 1] = 0;
+    } else if (dir == 2 && emptyElem[1] > 1 && emptyElem[1] < 5) {
+        gameBoard[emptyElem[0]][emptyElem[1]]
+                = gameBoard[emptyElem[0]][emptyElem[1] - 1];
+        gameBoard[emptyElem[0]][emptyElem[1] - 1] = 0;
+    } else if (dir == 3 && emptyElem[0] < 4 && emptyElem[0] > 0) {
+        gameBoard[emptyElem[0]][emptyElem[1]]
+                = gameBoard[emptyElem[0] + 1][emptyElem[1]];
+        gameBoard[emptyElem[0] + 1][emptyElem[1]] = 0;
+    } else if (dir == 4 && emptyElem[0] > 1 && emptyElem[0] < 5) {
+        gameBoard[emptyElem[0]][emptyElem[1]]
+                = gameBoard[emptyElem[0] - 1][emptyElem[1]];
+        gameBoard[emptyElem[0] - 1][emptyElem[1]] = 0;
     }
 }
