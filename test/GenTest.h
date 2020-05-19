@@ -7,101 +7,102 @@ using namespace std;
 
 class GenTest : public CxxTest::TestSuite {
     const int n = 5;
-    int a[16], chaos_index, exp_index; // a - 'отмечает' присутствие i-го
-    int** arr = new int*[n]; // элемента в матрице
+    int elemPresence[16], chaosIndex, expIndex;
+    int** gameBoard = new int*[n];
 
 public:
     void test_init_dinamic_matrix(void)
     {
         for (int i = 0; i < n; i++) {
-            arr[i] = new int[n]; // Реальная матрица
+            gameBoard[i] = new int[n];
         }
     }
     void test_gen(void)
     {
         for (int i = 0; i < 16; i++) {
-            a[i] = 0;
+            elemPresence[i] = 0;
         }
         srand(time(0));
-        generateArray(arr, n);
+        generateArray(gameBoard, n);
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < n; j++) {
-                switch (arr[i][j]) {
+                switch (gameBoard[i][j]) {
                 case 0:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 1:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 2:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 3:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 4:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 5:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 6:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 7:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 8:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 9:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 10:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 11:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 12:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 13:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 14:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 case 15:
-                    a[arr[i][j]] = 1;
+                    elemPresence[gameBoard[i][j]] += 1;
                     break;
                 }
             }
         }
         for (int i = 0; i < 16; i++) {
-            TS_ASSERT_EQUALS(1, a[i]); // 1 - элемент присутствует,
+            TS_ASSERT_EQUALS(1, elemPresence[i]); // 1 - элемент присутствует,
         } // 0 - элемент отсутствует(ошибка),
     }     // >1 - элементов несколько(ошибка).
     void test_check_gen_correct(void)
     {
         for (int i = 1; i < n; i++) { // Создание решаемой комбинации
             for (int j = 1; j < n; j++) { // эквивалентной всем остальным
-                arr[i][j] = j + 4 * (i - 1); // решаемым
+                gameBoard[i][j] = j + 4 * (i - 1); // решаемым
                 if (j + 4 * (i - 1) == 16) {
-                    arr[i][j] = 0;
+                    gameBoard[i][j] = 0;
                 }
             }
         }
-        chaos_index = checkGeneration(arr, n);
-        exp_index = 0;
-        TS_ASSERT_EQUALS(exp_index, chaos_index % 2);
+        chaosIndex = checkGeneration(gameBoard, n);
+        expIndex = 0;
+        TS_ASSERT_EQUALS(expIndex, chaosIndex % 2);
     }
     void test_check_gen_wrong(void)
     {
-        arr[4][2] = 15; // Создание нерешаемой комбинации эквивалентной всем
-        arr[4][3] = 14; // остальным нерешаемым
-        chaos_index = checkGeneration(arr, n);
-        exp_index = 1;
-        TS_ASSERT_EQUALS(exp_index, chaos_index % 2);
+        gameBoard[4][2]
+                = 15; // Создание нерешаемой комбинации эквивалентной всем
+        gameBoard[4][3] = 14; // остальным нерешаемым
+        chaosIndex = checkGeneration(gameBoard, n);
+        expIndex = 1;
+        TS_ASSERT_EQUALS(expIndex, chaosIndex % 2);
     }
 };
