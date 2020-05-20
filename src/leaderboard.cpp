@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
-#define nameflag (r.name.length() > 2 && r.name.length() < 11)
+#define nameflag (result.name.length() > 2 && result.name.length() < 11)
 using namespace std;
-const char ch = '\n';
-struct result {
+const char new_string = '\n';
+struct Result {
     string name;
-    int h;
-    int m;
-    int s;
+    int hours;
+    int minutes;
+    int seconds;
 };
 
 void clearFile()
@@ -24,129 +24,115 @@ void clearFile()
 int countStr()
 {
     ifstream records("records.txt");
-    int count = 0;
-    char* str = new char[500];
+    int countOfStr = 0;
+    char* bufferLine = new char[500];
     while (records) {
-        records.getline(str, 500);
-        count++;
+        records.getline(bufferLine, 500);
+        countOfStr++;
     }
-    delete[] str;
+    delete[] bufferLine;
     records.close();
-    return --count; // Убираем фактически пустую строку.
+    return --countOfStr; // Убираем фактически пустую строку.
 }
 
-void getResult(int* t, result& r, vector<result> vr)
+void getResult(int* time, Result& result, vector<Result> vector_result)
 {
     fstream records(
             "records.txt",
             ios::app | fstream::binary | fstream::out | fstream::in);
     if (records) {
-        r.name = "JustBufferOfName";
+        result.name = "JustBufferOfName";
         while (!nameflag) {
             cout << "Введите имя: ";
-            cin >> r.name;
+            cin >> result.name;
             if (!nameflag)
                 cout << "\nИмя не подходит под условия:\nДлина не менее 3 и не "
                         "более 10 символов!\n";
         }
-        r.h = t[0];
-        r.m = t[1];
-        r.s = t[2];
-        records << r.name << " " << r.h << " " << r.m << " " << r.s << '\n';
+        result.hours = time[0];
+        result.minutes = time[1];
+        result.seconds = time[2];
+        records << result.name << " " << result.hours << " " << result.minutes
+                << " " << result.seconds << '\n';
     } else {
         cout << "\nФайл не найден.\n";
     }
     records.close();
 }
 
-void sortResult(vector<result>& vr, int n)
+void sortResult(int* index_array, vector<Result> vector_result, int length)
 {
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n - 1; j++) {
-            if (vr[j].h > vr[j + 1].h) {
-                swap(vr[j].name, vr[j + 1].name);
-                swap(vr[j].h, vr[j + 1].h);
-                swap(vr[j].m, vr[j + 1].m);
-                swap(vr[j].s, vr[j + 1].s);
-            } else if (vr[j].h == vr[j + 1].h) {
-                if (vr[j].m > vr[j + 1].m) {
-                    swap(vr[j].name, vr[j + 1].name);
-                    swap(vr[j].h, vr[j + 1].h);
-                    swap(vr[j].m, vr[j + 1].m);
-                    swap(vr[j].s, vr[j + 1].s);
-                } else if (vr[j].m == vr[j + 1].m) {
-                    if (vr[j].s > vr[j + 1].s) {
-                        swap(vr[j].name, vr[j + 1].name);
-                        swap(vr[j].h, vr[j + 1].h);
-                        swap(vr[j].m, vr[j + 1].m);
-                        swap(vr[j].s, vr[j + 1].s);
-                    }
+    int k = 0;
+    for (int i = 0; i < length; i++) {
+        k = i;
+        for (int j = i; j < length; j++) {
+            if (vector_result[index_array[k]].hours
+                > vector_result[index_array[j]].hours)
+                k = j;
+            else if (
+                    vector_result[index_array[k]].hours
+                    == vector_result[index_array[j]].hours) {
+                if (vector_result[index_array[k]].minutes
+                    > vector_result[index_array[j]].minutes)
+                    k = j;
+                else if (
+                        vector_result[index_array[k]].minutes
+                        == vector_result[index_array[j]].minutes) {
+                    if (vector_result[index_array[k]].seconds
+                        > vector_result[index_array[j]].seconds)
+                        k = j;
                 }
             }
         }
+        swap(index_array[i], index_array[k]);
     }
 }
 
-void rewriteResult(result& r, vector<result> vr)
+void rewriteResult(Result& result, vector<Result> vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
-    int c = countStr();
-    for (int i = 0; i < c; i++) {
-        records >> r.name >> r.h >> r.m >> r.s;
-        vr.push_back(r);
+    int countOfStr = countStr();
+    for (int i = 0; i < countOfStr; i++) {
+        records >> result.name >> result.hours >> result.minutes
+                >> result.seconds;
+        vector_result.push_back(result);
     }
-    sortResult(vr, vr.size());
+    int length = vector_result.size();
+    int* index_array = new int[length];
+    for (int i = 0; i < length; i++) {
+        index_array[i] = i;
+    }
+
+    sortResult(index_array, vector_result, length);
     records.close();
     clearFile();
     ofstream newrecords("records.txt", ofstream::out);
-    int length = vr.size();
-    if (vr.size() > 5)
+    if (vector_result.size() > 5)
         length = 5;
     // Так как отображаться будут 5 лучших результатов,
     // то смысла хранить остальные - нет.
     for (int i = 0; i < length; i++) {
-        cout << vr[i].name << " " << vr[i].h << " " << vr[i].m << " " << vr[i].s
-             << '\n';
-        newrecords << vr[i].name << " " << vr[i].h << " " << vr[i].m << " "
-                   << vr[i].s << '\n';
+        cout << vector_result[index_array[i]].name << " "
+             << vector_result[index_array[i]].hours << " "
+             << vector_result[index_array[i]].minutes << " "
+             << vector_result[index_array[i]].seconds << '\n';
+        newrecords << vector_result[index_array[i]].name << " "
+                   << vector_result[index_array[i]].hours << " "
+                   << vector_result[index_array[i]].minutes << " "
+                   << vector_result[index_array[i]].seconds << '\n';
     }
     newrecords.close();
-    vr.clear();
+    vector_result.clear();
 }
 
-void writeResult(result& r, vector<result> vr)
+void writeResult(Result& result, vector<Result> vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
     for (int i = 0; i < countStr(); i++) {
-        records >> r.name >> r.h >> r.m >> r.s;
-        vr.push_back(r);
+        records >> result.name >> result.hours >> result.minutes
+                >> result.seconds;
+        vector_result.push_back(result);
     }
 }
-
-/*
- *  Описание функций:
- *      - clearFile() - очищает файл для перезаписи.
- *      - countStr() - подсчёт строк в файле.
- *      - getResult(int* t, result& r, vector<result> vr){  - Сбор данных для
- * новой записи.
- *          t - время;
- *          r - структура, по которой хранятся/считываются
- * данные.
- *          vr - вектор-структура для хранения записей.
- *      }
- *      - sortResult(vector<result>& vr, int n){ - Сортировка записей по времени
- * результатов.
- *          vr - вектор-структура для хранения записей.
- *          n - размер вектор-структуры.
- *      }
- *      - rewriteResult(result& r, vector<result> vr){  - Перезапись данных.
- *          r - структура для записей.
- *          vr - вектор-структура для записей.
- *      }
- *      - writeResult(){
- *          r - структура для записей.
- *          vr - вектор-структура для записей.
- *      }
- */

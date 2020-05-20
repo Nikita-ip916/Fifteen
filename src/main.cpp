@@ -13,7 +13,7 @@ const int height = 224;
 const int n = 5;
 using namespace std;
 using namespace sf;
-struct result {
+struct Result {
     string name;
     int h;
     int m;
@@ -22,8 +22,8 @@ struct result {
 
 int main()
 {
-    vector<result> vr;
-    result r;
+    vector<Result> vector_results;
+    Result r;
     RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
     Event event;
     Image numbersimage, othersimage;
@@ -34,12 +34,12 @@ int main()
     numberstexture.loadFromImage(numbersimage);
     otherstexture.loadFromImage(othersimage);
 
-    Sprite nmbr, scr, rstrt;
-    nmbr.setTexture(numberstexture);
-    scr.setTexture(otherstexture);
-    rstrt.setTexture(otherstexture);
-    scr.setTextureRect(IntRect(32, 0, 128, 32));
-    rstrt.setTextureRect(IntRect(0, 0, 32, 32));
+    Sprite number, highScore, restart;
+    number.setTexture(numberstexture);
+    highScore.setTexture(otherstexture);
+    restart.setTexture(otherstexture);
+    highScore.setTextureRect(IntRect(32, 0, 128, 32));
+    restart.setTextureRect(IntRect(0, 0, 32, 32));
     Font font;
     font.loadFromFile("TimesNewRoman.ttf");
     Text text("", font, 20);
@@ -48,44 +48,44 @@ int main()
 
     srand(time(0));
 
-    int** arr = new int*[n];
+    int** gameBoard = new int*[n];
     for (int i = 0; i < n; i++) {
-        arr[i] = new int[n];
+        gameBoard[i] = new int[n];
     }
-    generateArray(arr, n);
+    generateArray(gameBoard, n);
     cout << endl;
-    int t[3];
+    int time[3];
     for (int i = 0; i < 3; i++) {
-        t[i] = 0;
+        time[i] = 0;
     }
-    bool flag = false;
+    bool timerStart = false;
     while (window.isOpen()) {
         Vector2i pos = Mouse::getPosition(window);
         int dir = 0;
         int x = pos.x / 32;
         int y = pos.y / 32;
-        int mas[2]; // Gets coordinates of empty sprite
-        int time = moveTimer.getElapsedTime().asMilliseconds();
-        if (flag) {
-            t[0] = clock.getElapsedTime().asSeconds();
+        int emptyElem[2]; // Gets coordinates of empty sprite
+        int milliSecond = moveTimer.getElapsedTime().asMilliseconds();
+        if (timerStart) {
+            time[0] = clock.getElapsedTime().asSeconds();
         } else {
             clock.restart();
         }
-        if (t[0] > 59) {
+        if (time[0] > 59) {
             clock.restart();
         }
-        stopWatch(t);
+        stopWatch(time);
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
             }
             if (event.type == Event::MouseButtonPressed)
                 if (x == 5 && y == 4) {
-                    generateArray(arr, n);
+                    generateArray(gameBoard, n);
                     clock.restart();
-                    flag = false;
+                    timerStart = false;
                     for (int i = 0; i < 3; i++) {
-                        t[i] = 0;
+                        time[i] = 0;
                     }
                 }
         }
@@ -95,57 +95,57 @@ int main()
         window.clear(Color::Black);
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 5; j++) {
-                nmbr.setTextureRect(IntRect(32 * arr[j][i], 0, 32, 32));
-                nmbr.setPosition(32 * i, 32 * j);
-                window.draw(nmbr);
-                if (arr[j][i] == 0) {
-                    mas[0] = j;
-                    mas[1] = i;
+                number.setTextureRect(IntRect(32 * gameBoard[j][i], 0, 32, 32));
+                number.setPosition(32 * i, 32 * j);
+                window.draw(number);
+                if (gameBoard[j][i] == 0) {
+                    emptyElem[0] = j;
+                    emptyElem[1] = i;
                 }
             }
         }
         if ((Keyboard::isKeyPressed(Keyboard::A)
              || Keyboard::isKeyPressed(Keyboard::Left))
-            && time > 250) {
+            && milliSecond > 250) {
             dir = 1;
-            moveF(dir, arr, n, mas);
+            moveF(dir, gameBoard, n, emptyElem);
             moveTimer.restart();
-            flag = true;
+            timerStart = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::D)
                  || Keyboard::isKeyPressed(Keyboard::Right))
-                && time > 250) {
+                && milliSecond > 250) {
             dir = 2;
-            moveF(dir, arr, n, mas);
+            moveF(dir, gameBoard, n, emptyElem);
             moveTimer.restart();
-            flag = true;
+            timerStart = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::W)
                  || Keyboard::isKeyPressed(Keyboard::Up))
-                && mas[0] < 4 && time > 250) {
+                && emptyElem[0] < 4 && milliSecond > 250) {
             dir = 3;
-            moveF(dir, arr, n, mas);
+            moveF(dir, gameBoard, n, emptyElem);
             moveTimer.restart();
-            flag = true;
+            timerStart = true;
         } else if (
                 (Keyboard::isKeyPressed(Keyboard::S)
                  || Keyboard::isKeyPressed(Keyboard::Down))
-                && mas[0] > 1 && time > 250) {
+                && emptyElem[0] > 1 && milliSecond > 250) {
             dir = 4;
-            moveF(dir, arr, n, mas);
+            moveF(dir, gameBoard, n, emptyElem);
             moveTimer.restart();
-            flag = true;
+            timerStart = true;
         }
         ostringstream Out;
-        Out << setfill('0') << setw(2) << t[2] << ":" << setfill('0') << setw(2)
-            << t[1] << ":" << setfill('0') << setw(2) << t[0];
+        Out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
+            << setw(2) << time[1] << ":" << setfill('0') << setw(2) << time[0];
         text.setString(Out.str());
         text.setPosition(32, 0);
-        scr.setPosition(32, 160);
-        rstrt.setPosition(160, 128);
+        highScore.setPosition(32, 160);
+        restart.setPosition(160, 128);
         window.draw(text);
-        window.draw(scr);
-        window.draw(rstrt);
+        window.draw(highScore);
+        window.draw(restart);
         window.display();
     }
 }
