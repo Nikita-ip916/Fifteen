@@ -1,4 +1,5 @@
 #include "SFML/Graphics.hpp"
+#include "check.hpp"
 #include "gen.hpp"
 #include "leaderboard.hpp"
 #include "move.hpp"
@@ -16,15 +17,15 @@ using namespace std;
 using namespace sf;
 struct Result {
     string name;
-    int h;
-    int m;
-    int s;
+    int hours;
+    int minutes;
+    int seconds;
 };
 
 int main()
 {
-    vector<Result> vector_results;
-    Result r;
+    vector<Result> vector_result;
+    Result result;
     RenderWindow window(
             VideoMode(width, height), "Fifteen 2020   ", Style::Close);
     Event event;
@@ -67,15 +68,18 @@ int main()
         time[i] = 0;
     }
     bool timerStart = false;
+    bool isSolved = false;
     while (window.isOpen()) {
         Vector2i pos = Mouse::getPosition(window);
         int dir = 0;
         int x = pos.x / 32;
         int y = pos.y / 32;
+        int milliSecond;
         int emptyElem[2]; // Gets coordinates of empty sprite
-        int milliSecond = moveTimer.getElapsedTime().asMilliseconds();
+        milliSecond = moveTimer.getElapsedTime().asMilliseconds();
         if (timerStart) {
             time[0] = clock.getElapsedTime().asSeconds();
+
         } else {
             clock.restart();
         }
@@ -83,11 +87,15 @@ int main()
             clock.restart();
         }
         stopWatch(time);
+        /* !!!
+        if(checkToWin(gameBoard, n))
+            isSolved = true;
+        */
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
             }
-            if (event.type == Event::MouseButtonPressed)
+            if (event.type == Event::MouseButtonPressed) {
                 if (x == 5 && y == 4) {
                     generateArray(gameBoard, n);
                     clock.restart();
@@ -96,6 +104,24 @@ int main()
                         time[i] = 0;
                     }
                 }
+                if (x >= 1 && x <= 4 && y == 5) {
+                    cout << "\nOutput results:\n";
+                    showResult(result, vector_result);
+                }
+            }
+        }
+        if (isSolved) {
+            isSolved = false;
+            getResult(time, result, vector_result);
+            writeResult(result, vector_result);
+            cout << endl;
+            showResult(result, vector_result);
+            generateArray(gameBoard, n);
+            clock.restart();
+            timerStart = false;
+            for (int i = 0; i < 3; i++) {
+                time[i] = 0;
+            }
         }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
@@ -112,37 +138,39 @@ int main()
                 }
             }
         }
-        if ((Keyboard::isKeyPressed(Keyboard::A)
-             || Keyboard::isKeyPressed(Keyboard::Left))
-            && milliSecond > 250) {
-            dir = 1;
-            moveF(dir, gameBoard, n, emptyElem);
-            moveTimer.restart();
-            timerStart = true;
-        } else if (
-                (Keyboard::isKeyPressed(Keyboard::D)
-                 || Keyboard::isKeyPressed(Keyboard::Right))
+        if (!isSolved) {
+            if ((Keyboard::isKeyPressed(Keyboard::A)
+                 || Keyboard::isKeyPressed(Keyboard::Left))
                 && milliSecond > 250) {
-            dir = 2;
-            moveF(dir, gameBoard, n, emptyElem);
-            moveTimer.restart();
-            timerStart = true;
-        } else if (
-                (Keyboard::isKeyPressed(Keyboard::W)
-                 || Keyboard::isKeyPressed(Keyboard::Up))
-                && emptyElem[0] < 4 && milliSecond > 250) {
-            dir = 3;
-            moveF(dir, gameBoard, n, emptyElem);
-            moveTimer.restart();
-            timerStart = true;
-        } else if (
-                (Keyboard::isKeyPressed(Keyboard::S)
-                 || Keyboard::isKeyPressed(Keyboard::Down))
-                && emptyElem[0] > 1 && milliSecond > 250) {
-            dir = 4;
-            moveF(dir, gameBoard, n, emptyElem);
-            moveTimer.restart();
-            timerStart = true;
+                dir = 1;
+                moveF(dir, gameBoard, n, emptyElem);
+                moveTimer.restart();
+                timerStart = true;
+            } else if (
+                    (Keyboard::isKeyPressed(Keyboard::D)
+                     || Keyboard::isKeyPressed(Keyboard::Right))
+                    && milliSecond > 250) {
+                dir = 2;
+                moveF(dir, gameBoard, n, emptyElem);
+                moveTimer.restart();
+                timerStart = true;
+            } else if (
+                    (Keyboard::isKeyPressed(Keyboard::W)
+                     || Keyboard::isKeyPressed(Keyboard::Up))
+                    && emptyElem[0] < 4 && milliSecond > 250) {
+                dir = 3;
+                moveF(dir, gameBoard, n, emptyElem);
+                moveTimer.restart();
+                timerStart = true;
+            } else if (
+                    (Keyboard::isKeyPressed(Keyboard::S)
+                     || Keyboard::isKeyPressed(Keyboard::Down))
+                    && emptyElem[0] > 1 && milliSecond > 250) {
+                dir = 4;
+                moveF(dir, gameBoard, n, emptyElem);
+                moveTimer.restart();
+                timerStart = true;
+            }
         }
         ostringstream Out;
         Out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
