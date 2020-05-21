@@ -49,9 +49,9 @@ void getResult(int* time, Result& result, vector<Result> vector_result)
                 cout << "\nИмя не подходит под условия:\nДлина не менее 3 и не "
                         "более 10 символов!\n";
         }
-        result.hours = time[0];
+        result.seconds = time[0];
         result.minutes = time[1];
-        result.seconds = time[2];
+        result.hours = time[2];
         records << result.name << " " << result.hours << " " << result.minutes
                 << " " << result.seconds << '\n';
     } else {
@@ -88,12 +88,11 @@ void sortResult(int* index_array, vector<Result> vector_result, int length)
     }
 }
 
-void rewriteResult(Result& result, vector<Result> vector_result)
+void writeResult(Result& result, vector<Result> vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
-    int countOfStr = countStr();
-    for (int i = 0; i < countOfStr; i++) {
+    for (int i = 0; i < countStr(); i++) {
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
         vector_result.push_back(result);
@@ -113,10 +112,6 @@ void rewriteResult(Result& result, vector<Result> vector_result)
     // Так как отображаться будут 5 лучших результатов,
     // то смысла хранить остальные - нет.
     for (int i = 0; i < length; i++) {
-        cout << vector_result[index_array[i]].name << " "
-             << vector_result[index_array[i]].hours << " "
-             << vector_result[index_array[i]].minutes << " "
-             << vector_result[index_array[i]].seconds << '\n';
         newrecords << vector_result[index_array[i]].name << " "
                    << vector_result[index_array[i]].hours << " "
                    << vector_result[index_array[i]].minutes << " "
@@ -126,7 +121,7 @@ void rewriteResult(Result& result, vector<Result> vector_result)
     vector_result.clear();
 }
 
-void writeResult(Result& result, vector<Result> vector_result)
+void showResult(Result& result, vector<Result> vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
@@ -135,4 +130,12 @@ void writeResult(Result& result, vector<Result> vector_result)
                 >> result.seconds;
         vector_result.push_back(result);
     }
+    records.close();
+    int length = vector_result.size();
+    for (int i = 0; i < length; i++) {
+        cout << i + 1 << ". " << vector_result[i].name << " - "
+             << vector_result[i].hours << ":" << vector_result[i].minutes << ":"
+             << vector_result[i].seconds << endl;
+    }
+    vector_result.clear();
 }
