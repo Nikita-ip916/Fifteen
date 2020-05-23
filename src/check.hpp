@@ -1,5 +1,4 @@
-#ifndef CHECK_HPP
-#define CHECK_HPP
-
-int checkToWin(int**, int);
+#ifndef CHECK_H
+#define CHECK_H
+bool checkToWin(int**, const int);
 #endif

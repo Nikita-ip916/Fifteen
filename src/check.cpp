@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
-const int n = 5;
 
-int checkToWin(int** gameBoard, int n)
+bool checkToWin(int** gameBoard, const int n)
 {
     bool isCorrect = true;
     int expBoard[n][n];
