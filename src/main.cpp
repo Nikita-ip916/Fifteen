@@ -76,21 +76,6 @@ int main()
         int y = pos.y / 32;
         int milliSecond;
         int emptyElem[2]; // Gets coordinates of empty sprite
-        milliSecond = moveTimer.getElapsedTime().asMilliseconds();
-        if (timerStart) {
-            time[0] = clock.getElapsedTime().asSeconds();
-
-        } else {
-            clock.restart();
-        }
-        if (time[0] > 59) {
-            clock.restart();
-        }
-        stopWatch(time);
-        /* !!!
-        if(checkToWin(gameBoard, n))
-            isSolved = true;
-        */
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
@@ -103,13 +88,13 @@ int main()
                     for (int i = 0; i < 3; i++) {
                         time[i] = 0;
                     }
-                }
-                if (x >= 1 && x <= 4 && y == 5) {
+                } else if (x >= 1 && x <= 4 && y == 5) {
                     cout << "\nOutput results:\n";
                     showResult(result, vector_result);
                 }
             }
         }
+        window.clear(Color::Black);
         if (isSolved) {
             isSolved = false;
             getResult(time, result, vector_result);
@@ -122,23 +107,34 @@ int main()
             for (int i = 0; i < 3; i++) {
                 time[i] = 0;
             }
-        }
-        if (Keyboard::isKeyPressed(Keyboard::Escape)) {
-            window.close();
-        }
-        window.clear(Color::Black);
-        for (int i = 1; i < 5; i++) {
-            for (int j = 1; j < 5; j++) {
-                number.setTextureRect(IntRect(32 * gameBoard[j][i], 0, 32, 32));
-                number.setPosition(32 * i, 32 * j);
-                window.draw(number);
-                if (gameBoard[j][i] == 0) {
-                    emptyElem[0] = j;
-                    emptyElem[1] = i;
+        } else {
+            milliSecond = moveTimer.getElapsedTime().asMilliseconds();
+            if (timerStart) {
+                time[0] = clock.getElapsedTime().asSeconds();
+
+            } else {
+                clock.restart();
+            }
+            if (time[0] > 59) {
+                clock.restart();
+            }
+            stopWatch(time);
+            isSolved = checkToWin(gameBoard, n);
+            if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+                window.close();
+            }
+            for (int i = 1; i < 5; i++) {
+                for (int j = 1; j < 5; j++) {
+                    number.setTextureRect(
+                            IntRect(32 * gameBoard[j][i], 0, 32, 32));
+                    number.setPosition(32 * i, 32 * j);
+                    window.draw(number);
+                    if (gameBoard[j][i] == 0) {
+                        emptyElem[0] = j;
+                        emptyElem[1] = i;
+                    }
                 }
             }
-        }
-        if (!isSolved) {
             if ((Keyboard::isKeyPressed(Keyboard::A)
                  || Keyboard::isKeyPressed(Keyboard::Left))
                 && milliSecond > 250) {
