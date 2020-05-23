@@ -119,21 +119,8 @@ int main()
                 clock.restart();
             }
             stopWatch(time);
-            isSolved = checkToWin(gameBoard, n);
             if (Keyboard::isKeyPressed(Keyboard::Escape)) {
                 window.close();
-            }
-            for (int i = 1; i < 5; i++) {
-                for (int j = 1; j < 5; j++) {
-                    number.setTextureRect(
-                            IntRect(32 * gameBoard[j][i], 0, 32, 32));
-                    number.setPosition(32 * i, 32 * j);
-                    window.draw(number);
-                    if (gameBoard[j][i] == 0) {
-                        emptyElem[0] = j;
-                        emptyElem[1] = i;
-                    }
-                }
             }
             if ((Keyboard::isKeyPressed(Keyboard::A)
                  || Keyboard::isKeyPressed(Keyboard::Left))
@@ -167,7 +154,20 @@ int main()
                 moveTimer.restart();
                 timerStart = true;
             }
+            for (int i = 1; i < 5; i++) {
+                for (int j = 1; j < 5; j++) {
+                    number.setTextureRect(
+                            IntRect(32 * gameBoard[j][i], 0, 32, 32));
+                    number.setPosition(32 * i, 32 * j);
+                    window.draw(number);
+                    if (gameBoard[j][i] == 0) {
+                        emptyElem[0] = j;
+                        emptyElem[1] = i;
+                    }
+                }
+            }
         }
+        isSolved = checkToWin(gameBoard, n);
         ostringstream Out;
         Out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
             << setw(2) << time[1] << ":" << setfill('0') << setw(2) << time[0];
