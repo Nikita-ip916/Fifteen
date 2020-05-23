@@ -25,7 +25,8 @@ int main()
 {
     vector<Result> vector_results;
     Result r;
-    RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
+    RenderWindow window(
+            VideoMode(width, height), "Fifteen 2020   ", Style::Close);
     Event event;
     Font font;
     Image numbersimage, othersimage;
