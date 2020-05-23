@@ -33,7 +33,22 @@ int countStr()
     }
     delete[] bufferLine;
     records.close();
-    return --countOfStr; // Убираем фактически пустую строку.
+    return --countOfStr; // Delete last string if fact
+}
+
+int checkName(Result& result)
+{
+    bool isCorrect = true;
+    for (int i = 0; i < int(result.name.length()); i++) {
+        if (isCorrect) {
+            if (!((int(result.name[i]) > 47 && int(result.name[i]) < 58)
+                  || (int(result.name[i]) > 64 && int(result.name[i]) < 91)
+                  || (int(result.name[i]) > 96 && int(result.name[i]) < 123))) {
+                isCorrect = false;
+            }
+        }
+    }
+    return isCorrect;
 }
 
 void getResult(int* time, Result& result, vector<Result> vector_result)
@@ -43,12 +58,12 @@ void getResult(int* time, Result& result, vector<Result> vector_result)
             ios::app | fstream::binary | fstream::out | fstream::in);
     if (records) {
         result.name = "JustBufferOfName";
-        while (!nameflag) {
+        while (!nameflag || !checkName(result)) {
             cout << "Введите имя: ";
             cin >> result.name;
-            if (!nameflag)
+            if (!nameflag || !checkName(result))
                 cout << "\nИмя не подходит под условия:\nДлина не менее 3 и не "
-                        "более 10 символов!\n";
+                        "более 10 символов, только цифры и буквы латиницы!\n";
         }
         result.seconds = time[0];
         result.minutes = time[1];
