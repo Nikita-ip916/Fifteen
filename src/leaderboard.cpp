@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -133,9 +134,10 @@ void showResult(Result& result, vector<Result> vector_result)
     records.close();
     int length = vector_result.size();
     for (int i = 0; i < length; i++) {
-        cout << i + 1 << ". " << vector_result[i].name << " - "
-             << vector_result[i].hours << ":" << vector_result[i].minutes << ":"
-             << vector_result[i].seconds << endl;
+        cout << i + 1 << ". " << vector_result[i].name << " - " << setfill('0')
+             << setw(2) << vector_result[i].hours << ":" << setfill('0')
+             << setw(2) << vector_result[i].minutes << ":" << setfill('0')
+             << setw(2) << vector_result[i].seconds << endl;
     }
     vector_result.clear();
 }
