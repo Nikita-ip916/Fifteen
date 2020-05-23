@@ -3,6 +3,7 @@
 #include "leaderboard.hpp"
 #include "move.hpp"
 #include "out.hpp"
+#include "resoursecheck.hpp"
 #include "stopwatch.hpp"
 #include <ctime>
 #include <iomanip>
@@ -26,23 +27,17 @@ int main()
     Result r;
     RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
     Event event;
+    Font font;
     Image numbersimage, othersimage;
-    try {
-        if (!numbersimage.loadFromFile("Numbers.jpg")) {
-            throw 1;
-        }
-    } catch (int i) {
-        cout << "Error: Numbers.jpg not found. Exit programm." << endl;
+
+    if (resourseCheck()) {
+        numbersimage.loadFromFile("Numbers.jpg");
+        othersimage.loadFromFile("Others.jpg");
+        font.loadFromFile("TimesNewRoman.ttf");
+    } else {
         return 1;
     }
-    try {
-        if (!othersimage.loadFromFile("Others.jpg")) {
-            throw 1;
-        }
-    } catch (int i) {
-        cout << "Error: Others.jpg not found. Exit programm." << endl;
-        return 1;
-    }
+
     Texture numberstexture, otherstexture;
     numberstexture.loadFromImage(numbersimage);
     otherstexture.loadFromImage(othersimage);
@@ -53,15 +48,7 @@ int main()
     restart.setTexture(otherstexture);
     highScore.setTextureRect(IntRect(32, 0, 128, 32));
     restart.setTextureRect(IntRect(0, 0, 32, 32));
-    Font font;
-    try {
-        if (!font.loadFromFile("TimesNewRoman.ttf")) {
-            throw 1;
-        }
-    } catch (int i) {
-        cout << "Error: TimesNewRoman.ttf not found. Exit programm." << endl;
-        return 1;
-    }
+
     Text text("", font, 20);
     text.setStyle(Text::Bold);
     Clock clock, moveTimer;
