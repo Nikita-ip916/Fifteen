@@ -51,7 +51,7 @@ int checkName(Result& result)
     return isCorrect;
 }
 
-void getResult(int* time, Result& result, vector<Result> vector_result)
+void getResult(int* time, Result& result, vector<Result>& vector_result)
 {
     fstream records(
             "records.txt",
@@ -76,7 +76,7 @@ void getResult(int* time, Result& result, vector<Result> vector_result)
     records.close();
 }
 
-void sortResult(int* index_array, vector<Result> vector_result, int length)
+void sortResult(int* index_array, vector<Result>& vector_result, int length)
 {
     int k = 0;
     for (int i = 0; i < length; i++) {
@@ -104,7 +104,7 @@ void sortResult(int* index_array, vector<Result> vector_result, int length)
     }
 }
 
-void writeResult(Result& result, vector<Result> vector_result)
+void writeResult(Result& result, vector<Result>& vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
@@ -136,8 +136,7 @@ void writeResult(Result& result, vector<Result> vector_result)
     newrecords.close();
     vector_result.clear();
 }
-
-void showResult(Result& result, vector<Result> vector_result)
+void readResult(Result& result, vector<Result>& vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
@@ -147,12 +146,4 @@ void showResult(Result& result, vector<Result> vector_result)
         vector_result.push_back(result);
     }
     records.close();
-    int length = vector_result.size();
-    for (int i = 0; i < length; i++) {
-        cout << i + 1 << ". " << vector_result[i].name << " - " << setfill('0')
-             << setw(2) << vector_result[i].hours << ":" << setfill('0')
-             << setw(2) << vector_result[i].minutes << ":" << setfill('0')
-             << setw(2) << vector_result[i].seconds << endl;
-    }
-    vector_result.clear();
 }
