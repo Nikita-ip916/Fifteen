@@ -10,6 +10,8 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+const int defaultTextSize = 20;
+const int leaderboardTextSize = 16;
 const int width = 192;
 const int height = 224;
 const int n = 5;
@@ -51,8 +53,10 @@ int main()
     highScore.setTextureRect(IntRect(32, 0, 128, 32));
     restart.setTextureRect(IntRect(0, 0, 32, 32));
 
-    Text text("", font, 20);
-    text.setStyle(Text::Bold);
+    Text textTimer("", font, defaultTextSize);
+    Text textLeaderboard("", font, leaderboardTextSize);
+    textTimer.setStyle(Text::Bold);
+
     Clock clock, moveTimer;
 
     srand(time(0));
@@ -69,6 +73,7 @@ int main()
     }
     bool timerStart = false;
     bool isSolved = false;
+    bool showLeaderboard = false;
     while (window.isOpen()) {
         Vector2i pos = Mouse::getPosition(window);
         int dir = 0;
@@ -82,31 +87,31 @@ int main()
             }
             if (event.type == Event::MouseButtonPressed) {
                 if (x == 5 && y == 4) {
-                    generateArray(gameBoard, n);
-                    clock.restart();
-                    timerStart = false;
-                    for (int i = 0; i < 3; i++) {
-                        time[i] = 0;
+                    if (!showLeaderboard) {
+                        generateArray(gameBoard, n);
+                        clock.restart();
+                        timerStart = false;
+                        for (int i = 0; i < 3; i++) {
+                            time[i] = 0;
+                        }
                     }
                 } else if (x >= 1 && x <= 4 && y == 5) {
-                    cout << "\nOutput results:\n";
-                    showResult(result, vector_result);
+                    showLeaderboard = !showLeaderboard;
                 }
             }
         }
         window.clear(Color::Black);
         if (isSolved) {
-            isSolved = false;
             getResult(time, result, vector_result);
             writeResult(result, vector_result);
-            cout << endl;
-            showResult(result, vector_result);
+            readResult(result, vector_result);
             generateArray(gameBoard, n);
             clock.restart();
             timerStart = false;
             for (int i = 0; i < 3; i++) {
                 time[i] = 0;
             }
+            isSolved = false;
         } else {
             milliSecond = moveTimer.getElapsedTime().asMilliseconds();
             if (timerStart) {
@@ -122,62 +127,80 @@ int main()
             if (Keyboard::isKeyPressed(Keyboard::Escape)) {
                 window.close();
             }
-            if ((Keyboard::isKeyPressed(Keyboard::A)
-                 || Keyboard::isKeyPressed(Keyboard::Left))
-                && milliSecond > 250) {
-                dir = 1;
-                moveF(dir, gameBoard, n, emptyElem);
-                moveTimer.restart();
-                timerStart = true;
-            } else if (
-                    (Keyboard::isKeyPressed(Keyboard::D)
-                     || Keyboard::isKeyPressed(Keyboard::Right))
+            if (!showLeaderboard) {
+                if ((Keyboard::isKeyPressed(Keyboard::A)
+                     || Keyboard::isKeyPressed(Keyboard::Left))
                     && milliSecond > 250) {
-                dir = 2;
-                moveF(dir, gameBoard, n, emptyElem);
-                moveTimer.restart();
-                timerStart = true;
-            } else if (
-                    (Keyboard::isKeyPressed(Keyboard::W)
-                     || Keyboard::isKeyPressed(Keyboard::Up))
-                    && emptyElem[0] < 4 && milliSecond > 250) {
-                dir = 3;
-                moveF(dir, gameBoard, n, emptyElem);
-                moveTimer.restart();
-                timerStart = true;
-            } else if (
-                    (Keyboard::isKeyPressed(Keyboard::S)
-                     || Keyboard::isKeyPressed(Keyboard::Down))
-                    && emptyElem[0] > 1 && milliSecond > 250) {
-                dir = 4;
-                moveF(dir, gameBoard, n, emptyElem);
-                moveTimer.restart();
-                timerStart = true;
-            }
-            for (int i = 1; i < 5; i++) {
-                for (int j = 1; j < 5; j++) {
-                    number.setTextureRect(
-                            IntRect(32 * gameBoard[j][i], 0, 32, 32));
-                    number.setPosition(32 * i, 32 * j);
-                    window.draw(number);
-                    if (gameBoard[j][i] == 0) {
-                        emptyElem[0] = j;
-                        emptyElem[1] = i;
+                    dir = 1;
+                    moveF(dir, gameBoard, n, emptyElem);
+                    moveTimer.restart();
+                    timerStart = true;
+                } else if (
+                        (Keyboard::isKeyPressed(Keyboard::D)
+                         || Keyboard::isKeyPressed(Keyboard::Right))
+                        && milliSecond > 250) {
+                    dir = 2;
+                    moveF(dir, gameBoard, n, emptyElem);
+                    moveTimer.restart();
+                    timerStart = true;
+                } else if (
+                        (Keyboard::isKeyPressed(Keyboard::W)
+                         || Keyboard::isKeyPressed(Keyboard::Up))
+                        && emptyElem[0] < 4 && milliSecond > 250) {
+                    dir = 3;
+                    moveF(dir, gameBoard, n, emptyElem);
+                    moveTimer.restart();
+                    timerStart = true;
+                } else if (
+                        (Keyboard::isKeyPressed(Keyboard::S)
+                         || Keyboard::isKeyPressed(Keyboard::Down))
+                        && emptyElem[0] > 1 && milliSecond > 250) {
+                    dir = 4;
+                    moveF(dir, gameBoard, n, emptyElem);
+                    moveTimer.restart();
+                    timerStart = true;
+                }
+                for (int i = 1; i < 5; i++) {
+                    for (int j = 1; j < 5; j++) {
+                        number.setTextureRect(
+                                IntRect(32 * gameBoard[j][i], 0, 32, 32));
+                        number.setPosition(32 * i, 32 * j);
+                        window.draw(number);
+                        if (gameBoard[j][i] == 0) {
+                            emptyElem[0] = j;
+                            emptyElem[1] = i;
+                        }
                     }
                 }
             }
         }
         isSolved = checkToWin(gameBoard, n);
-        ostringstream Out;
-        Out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
+        ostringstream out;
+        out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
             << setw(2) << time[1] << ":" << setfill('0') << setw(2) << time[0];
-        text.setString(Out.str());
-        text.setPosition(32, 0);
+        textTimer.setString(out.str());
+        textTimer.setPosition(32, 0);
+        window.draw(textTimer);
+        out.str("");
+        if (!isSolved && showLeaderboard) {
+            readResult(result, vector_result);
+            for (int i = 0; i < int(vector_result.size()); i++) {
+                out << i + 1 << ". " << vector_result[i].name << " - "
+                    << setfill('0') << setw(2) << vector_result[i].hours << ":"
+                    << setfill('0') << setw(2) << vector_result[i].minutes
+                    << ":" << setfill('0') << setw(2)
+                    << vector_result[i].seconds << '\n';
+            }
+            textLeaderboard.setString(out.str());
+            textLeaderboard.setPosition(20, 24);
+            window.draw(textLeaderboard);
+            vector_result.clear();
+        } else {
+            restart.setPosition(160, 128);
+            window.draw(restart);
+        }
         highScore.setPosition(32, 160);
-        restart.setPosition(160, 128);
-        window.draw(text);
         window.draw(highScore);
-        window.draw(restart);
         window.display();
     }
 }
