@@ -3,6 +3,7 @@
 #include "leaderboard.hpp"
 #include "move.hpp"
 #include "out.hpp"
+#include "resoursecheck.hpp"
 #include "stopwatch.hpp"
 #include <ctime>
 #include <iomanip>
@@ -24,11 +25,19 @@ int main()
 {
     vector<Result> vector_results;
     Result r;
-    RenderWindow window(VideoMode(width, height), "Fifteen 2020   ");
+    RenderWindow window(
+            VideoMode(width, height), "Fifteen 2020   ", Style::Close);
     Event event;
+    Font font;
     Image numbersimage, othersimage;
-    numbersimage.loadFromFile("Numbers.jpg");
-    othersimage.loadFromFile("Others.jpg");
+
+    if (resourseCheck()) {
+        numbersimage.loadFromFile("Numbers.jpg");
+        othersimage.loadFromFile("Others.jpg");
+        font.loadFromFile("TimesNewRoman.ttf");
+    } else {
+        return 1;
+    }
 
     Texture numberstexture, otherstexture;
     numberstexture.loadFromImage(numbersimage);
@@ -40,8 +49,7 @@ int main()
     restart.setTexture(otherstexture);
     highScore.setTextureRect(IntRect(32, 0, 128, 32));
     restart.setTextureRect(IntRect(0, 0, 32, 32));
-    Font font;
-    font.loadFromFile("TimesNewRoman.ttf");
+
     Text text("", font, 20);
     text.setStyle(Text::Bold);
     Clock clock, moveTimer;

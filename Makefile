@@ -18,6 +18,7 @@ prog:
 		$(CC) -o $(DIR)/$(DIR3)/tstopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
 		$(CC) -o $(DIR)/$(DIR3)/tmove.o $(CFLAGS) $(DIR3)/move.cpp
 		$(CC) -o $(DIR)/$(DIR3)/leaderboard.o $(CFLAGS) $(DIR3)/leaderboard.cpp
+		$(CC) -o $(DIR)/$(DIR3)/resoursecheck.o $(CFLAGS) $(DIR3)/resoursecheck.cpp
 		$(CC) $(DIR)/$(DIR3)/*.o -o $(DIR2)/$(OUT) $(SFML2) $(SFML)
 test:
 		$(PRE) -o $(DIR)/$(DIR4)/$(RUN).cpp $(DIR4)/*.h
