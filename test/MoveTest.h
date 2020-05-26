@@ -4,24 +4,25 @@
 using namespace std;
 
 class MoveTest : public CxxTest::TestSuite {
-    const int n = 5;
+    const int boardSize = 5;
     int emptyElem[2];
     int dir, i, j;
-    int **gameBoard = new int *[n], **expGameBoard = new int *[n];
+    int **gameBoard = new int *[boardSize],
+        **expGameBoard = new int *[boardSize];
 
 public:
     void test_init_dinamic_matrix(void)
     {
-        for (int i = 0; i < n; i++) {
-            gameBoard[i] = new int[n];
-            expGameBoard[i] = new int[n];
+        for (int i = 0; i < boardSize; i++) {
+            gameBoard[i] = new int[boardSize];
+            expGameBoard[i] = new int[boardSize];
         }
     }
     void test_left_correctL(void) // леваяКлавиша_правильныйХод_леваяГрЭквив
     {
         dir = 1;
-        for (i = 1; i < n; i++) { // Исходное упорядочивание матрицы
-            for (j = 1; j < n; j++) { // в порядке от 0 до 15
+        for (i = 1; i < boardSize; i++) { // Исходное упорядочивание матрицы
+            for (j = 1; j < boardSize; j++) { // в порядке от 0 до 15
                 gameBoard[i][j] = j + 4 * (i - 1) - 1;
                 expGameBoard[i][j] = j + 4 * (i - 1) - 1;
             }
@@ -29,9 +30,9 @@ public:
         emptyElem[0] = emptyElem[1] = 1;
         expGameBoard[1][2] = 0; // Ожидаемое выполнение хода
         expGameBoard[1][1] = gameBoard[1][2]; //
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -48,9 +49,9 @@ public:
         emptyElem[1] = 3;
         expGameBoard[1][4] = 0;
         expGameBoard[1][3] = gameBoard[1][4];
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -62,9 +63,9 @@ public:
     {
         emptyElem[0] = 1;
         emptyElem[1] = 0;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -75,9 +76,9 @@ public:
         gameBoard[1][4] = expGameBoard[1][4] = 0;
         emptyElem[0] = 1;
         emptyElem[1] = 4;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -93,9 +94,9 @@ public:
         emptyElem[1] = 2;
         expGameBoard[1][2] = gameBoard[1][1];
         expGameBoard[1][1] = 0;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -108,9 +109,9 @@ public:
         emptyElem[1] = 4;
         expGameBoard[1][4] = gameBoard[1][3];
         expGameBoard[1][3] = 0;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -121,9 +122,9 @@ public:
     void test_right_wrongL(void)
     {
         emptyElem[0] = emptyElem[1] = 1;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -134,9 +135,9 @@ public:
         gameBoard[1][4] = expGameBoard[1][4] = 0;
         emptyElem[0] = 1;
         emptyElem[1] = 5;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -149,9 +150,9 @@ public:
         emptyElem[0] = emptyElem[1] = 1;
         expGameBoard[1][1] = gameBoard[2][1];
         expGameBoard[2][1] = 0;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -166,9 +167,9 @@ public:
         emptyElem[1] = 1;
         expGameBoard[3][1] = gameBoard[4][1];
         expGameBoard[4][1] = 0;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -180,9 +181,9 @@ public:
     {
         emptyElem[0] = 0;
         emptyElem[1] = 1;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -193,9 +194,9 @@ public:
         gameBoard[4][1] = expGameBoard[4][1] = 0;
         emptyElem[0] = 4;
         emptyElem[1] = 1;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -211,9 +212,9 @@ public:
         emptyElem[1] = 1;
         expGameBoard[2][1] = gameBoard[1][1];
         expGameBoard[1][1] = 0;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -226,9 +227,9 @@ public:
         emptyElem[1] = 1;
         expGameBoard[4][1] = gameBoard[3][1];
         expGameBoard[3][1] = 0;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -239,9 +240,9 @@ public:
     void test_down_wrongU(void)
     {
         emptyElem[0] = emptyElem[1] = 1;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }
@@ -252,9 +253,9 @@ public:
         gameBoard[4][1] = expGameBoard[4][1] = 0;
         emptyElem[0] = 5;
         emptyElem[1] = 1;
-        moveF(dir, gameBoard, n, emptyElem);
-        for (i = 1; i < n; i++) {
-            for (j = 1; j < n; j++) {
+        moveF(dir, gameBoard, boardSize, emptyElem);
+        for (i = 1; i < boardSize; i++) {
+            for (j = 1; j < boardSize; j++) {
                 TS_ASSERT_EQUALS(expGameBoard[i][j], gameBoard[i][j]);
             }
         }

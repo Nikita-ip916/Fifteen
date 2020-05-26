@@ -25,7 +25,7 @@ int main()
     const int width = 192;
     const int height = 224;
     const int textureMinSize = 32;
-    const int n = 5;
+    const int boardSize = 5;
     const int moveDelay = 250; // milliSeconds
     vector<Result> vector_result;
     Result result;
@@ -63,11 +63,11 @@ int main()
 
     srand(time(0));
 
-    int** gameBoard = new int*[n];
-    for (int i = 0; i < n; i++) {
-        gameBoard[i] = new int[n];
+    int** gameBoard = new int*[boardSize];
+    for (int i = 0; i < boardSize; i++) {
+        gameBoard[i] = new int[boardSize];
     }
-    generateArray(gameBoard, n);
+    generateArray(gameBoard, boardSize);
     int time[3], timeLock = 0;
     for (int i = 0; i < 3; i++) {
         time[i] = 0;
@@ -89,7 +89,7 @@ int main()
             if (event.type == Event::MouseButtonPressed && !nameInput
                 && !isSolved) {
                 if (x == 5 && y == 4 && !showLeaderboard) {
-                    generateArray(gameBoard, n);
+                    generateArray(gameBoard, boardSize);
                     clock.restart();
                     timerStart = false;
                     for (int i = 0; i < 3; i++) {
@@ -113,7 +113,7 @@ int main()
                 getResult(time, result, vector_result);
                 writeResult(result, vector_result);
                 readResult(result, vector_result);
-                generateArray(gameBoard, n);
+                generateArray(gameBoard, boardSize);
                 clock.restart();
                 timerStart = false;
                 for (int i = 0; i < 3; i++) {
@@ -121,7 +121,7 @@ int main()
                 }
                 nameInput = false;
             } else if (Keyboard::isKeyPressed(Keyboard::N)) {
-                generateArray(gameBoard, n);
+                generateArray(gameBoard, boardSize);
                 clock.restart();
                 timerStart = false;
                 for (int i = 0; i < 3; i++) {
@@ -166,8 +166,8 @@ int main()
                 if (Keyboard::isKeyPressed(Keyboard::Escape)) {
                     window.close();
                 }
-                for (int i = 1; i < 5; i++) {
-                    for (int j = 1; j < 5; j++) {
+                for (int i = 1; i < boardSize; i++) {
+                    for (int j = 1; j < boardSize; j++) {
                         if (gameBoard[j][i] == 0) {
                             emptyElem[0] = j;
                             emptyElem[1] = i;
@@ -178,32 +178,32 @@ int main()
                      || Keyboard::isKeyPressed(Keyboard::Left))
                     && milliSecond > moveDelay) {
                     dir = 1;
-                    moveF(dir, gameBoard, n, emptyElem);
+                    moveF(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::D)
                          || Keyboard::isKeyPressed(Keyboard::Right))
                         && milliSecond > moveDelay) {
                     dir = 2;
-                    moveF(dir, gameBoard, n, emptyElem);
+                    moveF(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::W)
                          || Keyboard::isKeyPressed(Keyboard::Up))
                         && milliSecond > moveDelay) {
                     dir = 3;
-                    moveF(dir, gameBoard, n, emptyElem);
+                    moveF(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::S)
                          || Keyboard::isKeyPressed(Keyboard::Down))
                         && milliSecond > moveDelay) {
                     dir = 4;
-                    moveF(dir, gameBoard, n, emptyElem);
+                    moveF(dir, gameBoard, boardSize, emptyElem);
                 }
                 if (gameBoard[emptyElem[0]][emptyElem[1]] != 0) {
                     moveTimer.restart();
                     timerStart = true;
                 }
-                for (int i = 1; i < 5; i++) {
-                    for (int j = 1; j < 5; j++) {
+                for (int i = 1; i < boardSize; i++) {
+                    for (int j = 1; j < boardSize; j++) {
                         number.setTextureRect(
                                 IntRect(textureMinSize * gameBoard[j][i],
                                         0,
@@ -217,7 +217,7 @@ int main()
                 restart.setPosition(textureMinSize * 5, textureMinSize * 4);
                 window.draw(restart);
             }
-            isSolved = checkToWin(gameBoard, n);
+            isSolved = checkToWin(gameBoard, boardSize);
             out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
                 << setw(2) << time[1] << ":" << setfill('0') << setw(2)
                 << time[0];

@@ -6,15 +6,15 @@
 using namespace std;
 
 class GenTest : public CxxTest::TestSuite {
-    const int n = 5;
+    const int boardSize = 5;
     int elemPresence[16], chaosIndex, expIndex;
-    int** gameBoard = new int*[n];
+    int** gameBoard = new int*[boardSize];
 
 public:
     void test_init_dinamic_matrix(void)
     {
-        for (int i = 0; i < n; i++) {
-            gameBoard[i] = new int[n];
+        for (int i = 0; i < boardSize; i++) {
+            gameBoard[i] = new int[boardSize];
         }
     }
     void test_gen(void)
@@ -23,9 +23,9 @@ public:
             elemPresence[i] = 0;
         }
         srand(time(0));
-        generateArray(gameBoard, n);
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < n; j++) {
+        generateArray(gameBoard, boardSize);
+        for (int i = 1; i < boardSize; i++) {
+            for (int j = 1; j < boardSize; j++) {
                 switch (gameBoard[i][j]) {
                 case 0:
                     elemPresence[gameBoard[i][j]] += 1;
@@ -84,15 +84,16 @@ public:
     }     // >1 - элементов несколько(ошибка).
     void test_check_gen_correct(void)
     {
-        for (int i = 1; i < n; i++) { // Создание решаемой комбинации
-            for (int j = 1; j < n; j++) { // эквивалентной всем остальным
+        for (int i = 1; i < boardSize; i++) { // Создание решаемой комбинации
+            for (int j = 1; j < boardSize;
+                 j++) { // эквивалентной всем остальным
                 gameBoard[i][j] = j + 4 * (i - 1); // решаемым
                 if (j + 4 * (i - 1) == 16) {
                     gameBoard[i][j] = 0;
                 }
             }
         }
-        chaosIndex = checkGeneration(gameBoard, n);
+        chaosIndex = checkGeneration(gameBoard, boardSize);
         expIndex = 0;
         TS_ASSERT_EQUALS(expIndex, chaosIndex % 2);
     }
@@ -101,7 +102,7 @@ public:
         gameBoard[4][2]
                 = 15; // Создание нерешаемой комбинации эквивалентной всем
         gameBoard[4][3] = 14; // остальным нерешаемым
-        chaosIndex = checkGeneration(gameBoard, n);
+        chaosIndex = checkGeneration(gameBoard, boardSize);
         expIndex = 1;
         TS_ASSERT_EQUALS(expIndex, chaosIndex % 2);
     }
