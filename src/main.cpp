@@ -78,24 +78,24 @@ int main()
         ostringstream out;
         Vector2i pos = Mouse::getPosition(window);
         int dir = 0;
-        int x = pos.x / textureMinSize;
-        int y = pos.y / textureMinSize;
-        int milliSecond;
-        int emptyElem[2]; // Gets coordinates of empty sprite
+        int xMouse = pos.x / textureMinSize;
+        int yMouse = pos.y / textureMinSize;
+        int currentMoveDelay;
+        int emptyElem[2];
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
             }
             if (event.type == Event::MouseButtonPressed && !nameInput
                 && !isSolved) {
-                if (x == 5 && y == 4 && !showLeaderboard) {
+                if (xMouse == 5 && yMouse == 4 && !showLeaderboard) {
                     generateArray(gameBoard, boardSize);
                     clock.restart();
                     timerStart = false;
                     for (int i = 0; i < 3; i++) {
                         time[i] = 0;
                     }
-                } else if (x >= 1 && x <= 4 && y == 5) {
+                } else if (xMouse >= 1 && xMouse <= 4 && yMouse == 5) {
                     showLeaderboard = !showLeaderboard;
                 }
             }
@@ -152,7 +152,7 @@ int main()
                 timeLock = time[0];
                 clock.restart();
             } else {
-                milliSecond = moveTimer.getElapsedTime().asMilliseconds();
+                currentMoveDelay = moveTimer.getElapsedTime().asMilliseconds();
                 if (timerStart) {
                     time[0] = clock.getElapsedTime().asSeconds() + timeLock;
                 } else {
@@ -176,25 +176,25 @@ int main()
                 }
                 if ((Keyboard::isKeyPressed(Keyboard::A)
                      || Keyboard::isKeyPressed(Keyboard::Left))
-                    && milliSecond > moveDelay) {
+                    && currentMoveDelay > moveDelay) {
                     dir = 1;
                     moveF(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::D)
                          || Keyboard::isKeyPressed(Keyboard::Right))
-                        && milliSecond > moveDelay) {
+                        && currentMoveDelay > moveDelay) {
                     dir = 2;
                     moveF(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::W)
                          || Keyboard::isKeyPressed(Keyboard::Up))
-                        && milliSecond > moveDelay) {
+                        && currentMoveDelay > moveDelay) {
                     dir = 3;
                     moveF(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::S)
                          || Keyboard::isKeyPressed(Keyboard::Down))
-                        && milliSecond > moveDelay) {
+                        && currentMoveDelay > moveDelay) {
                     dir = 4;
                     moveF(dir, gameBoard, boardSize, emptyElem);
                 }
