@@ -163,54 +163,52 @@ int main()
                 if (Keyboard::isKeyPressed(Keyboard::Escape)) {
                     window.close();
                 }
-                if (!showLeaderboard) {
-                    if ((Keyboard::isKeyPressed(Keyboard::A)
-                         || Keyboard::isKeyPressed(Keyboard::Left))
-                        && milliSecond > 250) {
-                        dir = 1;
-                        moveF(dir, gameBoard, n, emptyElem);
-                        moveTimer.restart();
-                        timerStart = true;
-                    } else if (
-                            (Keyboard::isKeyPressed(Keyboard::D)
-                             || Keyboard::isKeyPressed(Keyboard::Right))
-                            && milliSecond > 250) {
-                        dir = 2;
-                        moveF(dir, gameBoard, n, emptyElem);
-                        moveTimer.restart();
-                        timerStart = true;
-                    } else if (
-                            (Keyboard::isKeyPressed(Keyboard::W)
-                             || Keyboard::isKeyPressed(Keyboard::Up))
-                            && emptyElem[0] < 4 && milliSecond > 250) {
-                        dir = 3;
-                        moveF(dir, gameBoard, n, emptyElem);
-                        moveTimer.restart();
-                        timerStart = true;
-                    } else if (
-                            (Keyboard::isKeyPressed(Keyboard::S)
-                             || Keyboard::isKeyPressed(Keyboard::Down))
-                            && emptyElem[0] > 1 && milliSecond > 250) {
-                        dir = 4;
-                        moveF(dir, gameBoard, n, emptyElem);
-                        moveTimer.restart();
-                        timerStart = true;
-                    }
-                    for (int i = 1; i < 5; i++) {
-                        for (int j = 1; j < 5; j++) {
-                            number.setTextureRect(
-                                    IntRect(32 * gameBoard[j][i], 0, 32, 32));
-                            number.setPosition(32 * i, 32 * j);
-                            window.draw(number);
-                            if (gameBoard[j][i] == 0) {
-                                emptyElem[0] = j;
-                                emptyElem[1] = i;
-                            }
+                for (int i = 1; i < 5; i++) {
+                    for (int j = 1; j < 5; j++) {
+                        if (gameBoard[j][i] == 0) {
+                            emptyElem[0] = j;
+                            emptyElem[1] = i;
                         }
                     }
-                    restart.setPosition(160, 128);
-                    window.draw(restart);
                 }
+                if ((Keyboard::isKeyPressed(Keyboard::A)
+                     || Keyboard::isKeyPressed(Keyboard::Left))
+                    && milliSecond > 250) {
+                    dir = 1;
+                    moveF(dir, gameBoard, n, emptyElem);
+                } else if (
+                        (Keyboard::isKeyPressed(Keyboard::D)
+                         || Keyboard::isKeyPressed(Keyboard::Right))
+                        && milliSecond > 250) {
+                    dir = 2;
+                    moveF(dir, gameBoard, n, emptyElem);
+                } else if (
+                        (Keyboard::isKeyPressed(Keyboard::W)
+                         || Keyboard::isKeyPressed(Keyboard::Up))
+                        && milliSecond > 250) {
+                    dir = 3;
+                    moveF(dir, gameBoard, n, emptyElem);
+                } else if (
+                        (Keyboard::isKeyPressed(Keyboard::S)
+                         || Keyboard::isKeyPressed(Keyboard::Down))
+                        && milliSecond > 250) {
+                    dir = 4;
+                    moveF(dir, gameBoard, n, emptyElem);
+                }
+                if (gameBoard[emptyElem[0]][emptyElem[1]] != 0) {
+                    moveTimer.restart();
+                    timerStart = true;
+                }
+                for (int i = 1; i < 5; i++) {
+                    for (int j = 1; j < 5; j++) {
+                        number.setTextureRect(
+                                IntRect(32 * gameBoard[j][i], 0, 32, 32));
+                        number.setPosition(32 * i, 32 * j);
+                        window.draw(number);
+                    }
+                }
+                restart.setPosition(160, 128);
+                window.draw(restart);
             }
             isSolved = checkToWin(gameBoard, n);
             out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
