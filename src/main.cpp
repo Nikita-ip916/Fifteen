@@ -66,7 +66,7 @@ int main()
         gameBoard[i] = new int[n];
     }
     generateArray(gameBoard, n);
-    int time[3];
+    int time[3], timeLock = 0;
     for (int i = 0; i < 3; i++) {
         time[i] = 0;
     }
@@ -142,15 +142,17 @@ int main()
                 textLeaderboard.setPosition(20, 24);
                 window.draw(textLeaderboard);
                 vector_result.clear();
+                timeLock = time[0];
+                clock.restart();
             } else {
                 milliSecond = moveTimer.getElapsedTime().asMilliseconds();
                 if (timerStart) {
-                    time[0] = clock.getElapsedTime().asSeconds();
-
+                    time[0] = clock.getElapsedTime().asSeconds() + timeLock;
                 } else {
                     clock.restart();
                 }
                 if (time[0] > 59) {
+                    timeLock = 0;
                     clock.restart();
                 }
                 stopWatch(time);
