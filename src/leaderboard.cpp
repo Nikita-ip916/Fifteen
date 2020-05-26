@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,35 +33,51 @@ int countStr()
     }
     delete[] bufferLine;
     records.close();
-    return --countOfStr; // Убираем фактически пустую строку.
+    return --countOfStr; // Delete last string if fact
 }
 
-void getResult(int* time, Result& result, vector<Result> vector_result)
+int checkName(Result& result)
+{
+    bool isCorrect = true;
+    for (int i = 0; i < int(result.name.length()); i++) {
+        if (isCorrect) {
+            if (!((int(result.name[i]) > 47 && int(result.name[i]) < 58)
+                  || (int(result.name[i]) > 64 && int(result.name[i]) < 91)
+                  || (int(result.name[i]) > 96 && int(result.name[i]) < 123))) {
+                isCorrect = false;
+            }
+        }
+    }
+    return isCorrect;
+}
+
+void getResult(int* time, Result& result, vector<Result>& vector_result)
 {
     fstream records(
             "records.txt",
             ios::app | fstream::binary | fstream::out | fstream::in);
     if (records) {
         result.name = "JustBufferOfName";
-        while (!nameflag) {
-            cout << "Введите имя: ";
+        while (!nameflag || !checkName(result)) {
+            cout << "Enter your name: ";
             cin >> result.name;
-            if (!nameflag)
-                cout << "\nИмя не подходит под условия:\nДлина не менее 3 и не "
-                        "более 10 символов!\n";
+            if (!nameflag || !checkName(result))
+                cout << "\nИName does not match:\nLength of at least 3 and no "
+                        "more than 10 characters, only numbers and letters of "
+                        "the Latin alphabet!\n";
         }
-        result.hours = time[0];
+        result.seconds = time[0];
         result.minutes = time[1];
-        result.seconds = time[2];
+        result.hours = time[2];
         records << result.name << " " << result.hours << " " << result.minutes
                 << " " << result.seconds << '\n';
     } else {
-        cout << "\nФайл не найден.\n";
+        cout << "\nFile not found.\n";
     }
     records.close();
 }
 
-void sortResult(int* index_array, vector<Result> vector_result, int length)
+void sortResult(int* index_array, vector<Result>& vector_result, int length)
 {
     int k = 0;
     for (int i = 0; i < length; i++) {
@@ -88,12 +105,11 @@ void sortResult(int* index_array, vector<Result> vector_result, int length)
     }
 }
 
-void rewriteResult(Result& result, vector<Result> vector_result)
+void writeResult(Result& result, vector<Result>& vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
-    int countOfStr = countStr();
-    for (int i = 0; i < countOfStr; i++) {
+    for (int i = 0; i < countStr(); i++) {
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
         vector_result.push_back(result);
@@ -108,25 +124,33 @@ void rewriteResult(Result& result, vector<Result> vector_result)
     records.close();
     clearFile();
     ofstream newrecords("records.txt", ofstream::out);
-    if (vector_result.size() > 5)
+    if (vector_result.size() > 5) {
         length = 5;
-    // Так как отображаться будут 5 лучших результатов,
-    // то смысла хранить остальные - нет.
+    }
+    bool isInLeaderboard = false;
+    // Since the top 5 results will be displayed,
+    // it makes no sense to store the rest.
     for (int i = 0; i < length; i++) {
-        cout << vector_result[index_array[i]].name << " "
-             << vector_result[index_array[i]].hours << " "
-             << vector_result[index_array[i]].minutes << " "
-             << vector_result[index_array[i]].seconds << '\n';
         newrecords << vector_result[index_array[i]].name << " "
                    << vector_result[index_array[i]].hours << " "
                    << vector_result[index_array[i]].minutes << " "
                    << vector_result[index_array[i]].seconds << '\n';
+        if ((vector_result[index_array[i]].name == result.name)
+            && (vector_result[index_array[i]].hours == result.hours)
+            && (vector_result[index_array[i]].minutes == result.minutes)
+            && (vector_result[index_array[i]].seconds == result.seconds)) {
+            isInLeaderboard = true;
+        }
+    }
+    if (isInLeaderboard) {
+        cout << "\nYour result hit the table!\nCongratulations!\n";
+    } else {
+        cout << "\nYour result did not hit the table!\nTry hard next time!\n";
     }
     newrecords.close();
     vector_result.clear();
 }
-
-void writeResult(Result& result, vector<Result> vector_result)
+void readResult(Result& result, vector<Result>& vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
@@ -135,4 +159,5 @@ void writeResult(Result& result, vector<Result> vector_result)
                 >> result.seconds;
         vector_result.push_back(result);
     }
+    records.close();
 }
