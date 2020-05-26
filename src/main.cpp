@@ -10,11 +10,6 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-const int defaultTextSize = 20;
-const int leaderboardTextSize = 16;
-const int width = 192;
-const int height = 224;
-const int n = 5;
 using namespace std;
 using namespace sf;
 struct Result {
@@ -23,9 +18,13 @@ struct Result {
     int minutes;
     int seconds;
 };
-
 int main()
 {
+    const int defaultTextSize = 20;
+    const int leaderboardTextSize = 16;
+    const int width = 192;
+    const int height = 224;
+    const int n = 5;
     vector<Result> vector_result;
     Result result;
     RenderWindow window(
