@@ -24,7 +24,9 @@ int main()
     const int leaderboardTextSize = 16;
     const int width = 192;
     const int height = 224;
+    const int textureMinSize = 32;
     const int n = 5;
+    const int moveDelay = 250; // milliSeconds
     vector<Result> vector_result;
     Result result;
     RenderWindow window(
@@ -49,8 +51,9 @@ int main()
     number.setTexture(numberstexture);
     highScore.setTexture(otherstexture);
     restart.setTexture(otherstexture);
-    highScore.setTextureRect(IntRect(32, 0, 128, 32));
-    restart.setTextureRect(IntRect(0, 0, 32, 32));
+    highScore.setTextureRect(
+            IntRect(textureMinSize, 0, textureMinSize * 4, textureMinSize));
+    restart.setTextureRect(IntRect(0, 0, textureMinSize, textureMinSize));
 
     Text textTimer("", font, defaultTextSize);
     Text textLeaderboard("", font, leaderboardTextSize);
@@ -75,8 +78,8 @@ int main()
         ostringstream out;
         Vector2i pos = Mouse::getPosition(window);
         int dir = 0;
-        int x = pos.x / 32;
-        int y = pos.y / 32;
+        int x = pos.x / textureMinSize;
+        int y = pos.y / textureMinSize;
         int milliSecond;
         int emptyElem[2]; // Gets coordinates of empty sprite
         while (window.pollEvent(event)) {
@@ -173,25 +176,25 @@ int main()
                 }
                 if ((Keyboard::isKeyPressed(Keyboard::A)
                      || Keyboard::isKeyPressed(Keyboard::Left))
-                    && milliSecond > 250) {
+                    && milliSecond > moveDelay) {
                     dir = 1;
                     moveF(dir, gameBoard, n, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::D)
                          || Keyboard::isKeyPressed(Keyboard::Right))
-                        && milliSecond > 250) {
+                        && milliSecond > moveDelay) {
                     dir = 2;
                     moveF(dir, gameBoard, n, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::W)
                          || Keyboard::isKeyPressed(Keyboard::Up))
-                        && milliSecond > 250) {
+                        && milliSecond > moveDelay) {
                     dir = 3;
                     moveF(dir, gameBoard, n, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::S)
                          || Keyboard::isKeyPressed(Keyboard::Down))
-                        && milliSecond > 250) {
+                        && milliSecond > moveDelay) {
                     dir = 4;
                     moveF(dir, gameBoard, n, emptyElem);
                 }
@@ -202,12 +205,16 @@ int main()
                 for (int i = 1; i < 5; i++) {
                     for (int j = 1; j < 5; j++) {
                         number.setTextureRect(
-                                IntRect(32 * gameBoard[j][i], 0, 32, 32));
-                        number.setPosition(32 * i, 32 * j);
+                                IntRect(textureMinSize * gameBoard[j][i],
+                                        0,
+                                        textureMinSize,
+                                        textureMinSize));
+                        number.setPosition(
+                                textureMinSize * i, textureMinSize * j);
                         window.draw(number);
                     }
                 }
-                restart.setPosition(160, 128);
+                restart.setPosition(textureMinSize * 5, textureMinSize * 4);
                 window.draw(restart);
             }
             isSolved = checkToWin(gameBoard, n);
@@ -216,9 +223,9 @@ int main()
                 << time[0];
             textTimer.setString(out.str());
             out.str("");
-            textTimer.setPosition(32, 0);
+            textTimer.setPosition(textureMinSize, 0);
             window.draw(textTimer);
-            highScore.setPosition(32, 160);
+            highScore.setPosition(textureMinSize, textureMinSize * 5);
             window.draw(highScore);
             window.display();
         }
