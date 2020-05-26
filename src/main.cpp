@@ -90,6 +90,7 @@ int main()
                 && !isSolved) {
                 if (xMouse == 5 && yMouse == 4 && !showLeaderboard) {
                     generateArray(gameBoard, boardSize);
+                    timeLock = 0;
                     clock.restart();
                     timerStart = false;
                     for (int i = 0; i < 3; i++) {
@@ -114,6 +115,7 @@ int main()
                 writeResult(result, vector_result);
                 readResult(result, vector_result);
                 generateArray(gameBoard, boardSize);
+                timeLock = 0;
                 clock.restart();
                 timerStart = false;
                 for (int i = 0; i < 3; i++) {
@@ -122,6 +124,7 @@ int main()
                 nameInput = false;
             } else if (Keyboard::isKeyPressed(Keyboard::N)) {
                 generateArray(gameBoard, boardSize);
+                timeLock = 0;
                 clock.restart();
                 timerStart = false;
                 for (int i = 0; i < 3; i++) {
