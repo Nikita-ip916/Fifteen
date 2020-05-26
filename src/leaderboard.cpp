@@ -59,11 +59,12 @@ void getResult(int* time, Result& result, vector<Result>& vector_result)
     if (records) {
         result.name = "JustBufferOfName";
         while (!nameflag || !checkName(result)) {
-            cout << "Введите имя: ";
+            cout << "Enter your name: ";
             cin >> result.name;
             if (!nameflag || !checkName(result))
-                cout << "\nИмя не подходит под условия:\nДлина не менее 3 и не "
-                        "более 10 символов, только цифры и буквы латиницы!\n";
+                cout << "\nИName does not match:\nLength of at least 3 and no "
+                        "more than 10 characters, only numbers and letters of "
+                        "the Latin alphabet!\n";
         }
         result.seconds = time[0];
         result.minutes = time[1];
@@ -71,7 +72,7 @@ void getResult(int* time, Result& result, vector<Result>& vector_result)
         records << result.name << " " << result.hours << " " << result.minutes
                 << " " << result.seconds << '\n';
     } else {
-        cout << "\nФайл не найден.\n";
+        cout << "\nFile not found.\n";
     }
     records.close();
 }
@@ -123,15 +124,28 @@ void writeResult(Result& result, vector<Result>& vector_result)
     records.close();
     clearFile();
     ofstream newrecords("records.txt", ofstream::out);
-    if (vector_result.size() > 5)
+    if (vector_result.size() > 5) {
         length = 5;
-    // Так как отображаться будут 5 лучших результатов,
-    // то смысла хранить остальные - нет.
+    }
+    bool isInLeaderboard = false;
+    // Since the top 5 results will be displayed,
+    // it makes no sense to store the rest.
     for (int i = 0; i < length; i++) {
         newrecords << vector_result[index_array[i]].name << " "
                    << vector_result[index_array[i]].hours << " "
                    << vector_result[index_array[i]].minutes << " "
                    << vector_result[index_array[i]].seconds << '\n';
+        if ((vector_result[index_array[i]].name == result.name)
+            && (vector_result[index_array[i]].hours == result.hours)
+            && (vector_result[index_array[i]].minutes == result.minutes)
+            && (vector_result[index_array[i]].seconds == result.seconds)) {
+            isInLeaderboard = true;
+        }
+    }
+    if (isInLeaderboard) {
+        cout << "\nYour result hit the table!\nCongratulations!\n";
+    } else {
+        cout << "\nYour result did not hit the table!\nTry hard next time!\n";
     }
     newrecords.close();
     vector_result.clear();
