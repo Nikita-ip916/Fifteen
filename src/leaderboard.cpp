@@ -36,14 +36,15 @@ int countStr()
     return --countOfStr; // Delete last string if fact
 }
 
-int checkName(Result& result)
+bool checkName(Result& result)
 {
     bool isCorrect = true;
     for (int i = 0; i < int(result.name.length()); i++) {
         if (isCorrect) {
             if (!((int(result.name[i]) > 47 && int(result.name[i]) < 58)
                   || (int(result.name[i]) > 64 && int(result.name[i]) < 91)
-                  || (int(result.name[i]) > 96 && int(result.name[i]) < 123))) {
+                  || (int(result.name[i]) > 96 && int(result.name[i]) < 123))
+                || !nameflag) {
                 isCorrect = false;
             }
         }
@@ -58,10 +59,10 @@ void getResult(int* time, Result& result, vector<Result>& vector_result)
             ios::app | fstream::binary | fstream::out | fstream::in);
     if (records) {
         result.name = "JustBufferOfName";
-        while (!nameflag || !checkName(result)) {
+        while (!checkName(result)) {
             cout << "Enter your name: ";
             cin >> result.name;
-            if (!nameflag || !checkName(result))
+            if (!checkName(result))
                 cout << "\nИName does not match:\nLength of at least 3 and no "
                         "more than 10 characters, only numbers and letters of "
                         "the Latin alphabet!\n";
