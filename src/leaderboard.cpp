@@ -7,7 +7,6 @@
 #include <vector>
 #define nameflag (result.name.length() > 2 && result.name.length() < 11)
 using namespace std;
-const char new_string = '\n';
 struct Result {
     string name;
     int hours;
@@ -22,16 +21,15 @@ void clearFile()
     file.close();
 }
 
-int countStr()
+int countStr(Result& result)
 {
     ifstream records("records.txt");
     int countOfStr = 0;
-    char* bufferLine = new char[500];
-    while (records) {
-        records.getline(bufferLine, 500);
+    while (!records.eof()) {
+        records >> result.name >> result.hours >> result.minutes
+                >> result.seconds;
         countOfStr++;
     }
-    delete[] bufferLine;
     records.close();
     return --countOfStr; // Delete last string if fact
 }
@@ -39,13 +37,18 @@ int countStr()
 bool checkName(Result& result)
 {
     bool isCorrect = true;
-    for (int i = 0; i < int(result.name.length()); i++) {
-        if (isCorrect) {
-            if (!((int(result.name[i]) > 47 && int(result.name[i]) < 58)
-                  || (int(result.name[i]) > 64 && int(result.name[i]) < 91)
-                  || (int(result.name[i]) > 96 && int(result.name[i]) < 123))
-                || !nameflag) {
-                isCorrect = false;
+    if (!nameflag) {
+        isCorrect = false;
+    }
+    if (isCorrect) {
+        for (int i = 0; i < int(result.name.length()); i++) {
+            if (isCorrect) {
+                if (!((int(result.name[i]) > 47 && int(result.name[i]) < 58)
+                      || (int(result.name[i]) > 64 && int(result.name[i]) < 91)
+                      || (int(result.name[i]) > 96
+                          && int(result.name[i]) < 123))) {
+                    isCorrect = false;
+                }
             }
         }
     }
@@ -56,15 +59,17 @@ void getResult(int* time, Result& result, vector<Result>& vector_result)
 {
     fstream records(
             "records.txt",
-            ios::app | fstream::binary | fstream::out | fstream::in);
+            fstream::app | fstream::binary | fstream::out | fstream::in);
     if (records) {
         result.name = "JustBufferOfName";
         while (!checkName(result)) {
             cout << "Enter your name: ";
             cin >> result.name;
             if (!checkName(result))
-                cout << "\nИName does not match:\nLength of at least 3 and no "
-                        "more than 10 characters, only numbers and letters of "
+                cout << "\nName does not match:\nLength of at least 3 and "
+                        "no "
+                        "more than 10 characters, only numbers and letters "
+                        "of "
                         "the Latin alphabet!\n";
         }
         result.seconds = time[0];
@@ -110,17 +115,18 @@ void writeResult(Result& result, vector<Result>& vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
-    for (int i = 0; i < countStr(); i++) {
+    for (int i = 0; i < countStr(result); i++) {
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
-        vector_result.push_back(result);
+        if (checkName(result)) {
+            vector_result.push_back(result);
+        }
     }
     int length = vector_result.size();
     int* index_array = new int[length];
     for (int i = 0; i < length; i++) {
         index_array[i] = i;
     }
-
     sortResult(index_array, vector_result, length);
     records.close();
     clearFile();
@@ -146,8 +152,10 @@ void writeResult(Result& result, vector<Result>& vector_result)
     if (isInLeaderboard) {
         cout << "\nYour result hit the table!\nCongratulations!\n";
     } else {
-        cout << "\nYour result did not hit the table!\nTry hard next time!\n";
+        cout << "\nYour result did not hit the table!\nTry hard next "
+                "time!\n";
     }
+    delete[] index_array;
     newrecords.close();
     vector_result.clear();
 }
@@ -155,10 +163,41 @@ void readResult(Result& result, vector<Result>& vector_result)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
-    for (int i = 0; i < countStr(); i++) {
+    for (int i = 0; i < countStr(result); i++) {
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
         vector_result.push_back(result);
     }
     records.close();
+}
+void fixFile(Result& result, vector<Result>& vector_result)
+{
+    vector_result.clear();
+    ifstream records(
+            "records.txt", ifstream::binary | ifstream::app | ifstream::in);
+    for (int i = 0; i < countStr(result); i++) {
+        records >> result.name >> result.hours >> result.minutes
+                >> result.seconds;
+        if (checkName(result)) {
+            vector_result.push_back(result);
+        }
+    }
+    records.close();
+    clearFile();
+    int length = vector_result.size();
+    int* index_array = new int[length];
+    for (int i = 0; i < length; i++) {
+        index_array[i] = i;
+    }
+    sortResult(index_array, vector_result, length);
+    ofstream newrecords("records.txt", ofstream::out);
+    for (int i = 0; i < 5; i++) {
+        newrecords << vector_result[index_array[i]].name << " "
+                   << vector_result[index_array[i]].hours << " "
+                   << vector_result[index_array[i]].minutes << " "
+                   << vector_result[index_array[i]].seconds << '\n';
+    }
+    delete[] index_array;
+    newrecords.close();
+    vector_result.clear();
 }
