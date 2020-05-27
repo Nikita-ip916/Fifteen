@@ -103,8 +103,8 @@ int main()
         }
         window.clear(Color::Black);
         if (isSolved) {
-            cout << "Push the button (y/n) anywhere except console if you want "
-                    "to enter name for leaderboard"
+            cout << "Push the button (y/n) anywhere except console to enter "
+                    "(or not) name for leaderboard"
                  << endl;
             nameInput = true;
             isSolved = false;

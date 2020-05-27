@@ -66,10 +66,8 @@ void getResult(int* time, Result& result, vector<Result>& vectorResult)
             cout << "Enter your name: ";
             getline(cin, result.name);
             if (!checkName(result))
-                cout << "\nName does not match:\nLength of at least 3 and "
-                        "no "
-                        "more than 10 characters, only numbers and letters "
-                        "of "
+                cout << "\nName does not match:\nLength of at least 3 and no "
+                        "more than 10 characters, only numbers and letters of "
                         "the Latin alphabet!\n";
         }
         result.seconds = time[0];
