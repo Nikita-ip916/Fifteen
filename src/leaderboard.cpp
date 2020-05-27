@@ -64,7 +64,7 @@ void getResult(int* time, Result& result, vector<Result>& vector_result)
         result.name = "JustBufferOfName";
         while (!checkName(result)) {
             cout << "Enter your name: ";
-            cin >> result.name;
+            getline(cin, result.name);
             if (!checkName(result))
                 cout << "\nName does not match:\nLength of at least 3 and "
                         "no "
