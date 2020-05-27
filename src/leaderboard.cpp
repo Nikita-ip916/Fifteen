@@ -190,8 +190,11 @@ void fixFile(Result& result, vector<Result>& vector_result)
         index_array[i] = i;
     }
     sortResult(index_array, vector_result, length);
+    if (length > 5) {
+        length = 5;
+    }
     ofstream newrecords("records.txt", ofstream::out);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < length; i++) {
         newrecords << vector_result[index_array[i]].name << " "
                    << vector_result[index_array[i]].hours << " "
                    << vector_result[index_array[i]].minutes << " "
