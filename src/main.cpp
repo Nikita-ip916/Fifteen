@@ -55,9 +55,9 @@ int main()
             IntRect(textureMinSize, 0, textureMinSize * 4, textureMinSize));
     restart.setTextureRect(IntRect(0, 0, textureMinSize, textureMinSize));
 
-    Text textTimer("", font, defaultTextSize);
+    Text textStopWatch("", font, defaultTextSize);
     Text textLeaderboard("", font, leaderboardTextSize);
-    textTimer.setStyle(Text::Bold);
+    textStopWatch.setStyle(Text::Bold);
 
     Clock clock, moveTimer;
 
@@ -72,8 +72,8 @@ int main()
     for (int i = 0; i < 3; i++) {
         time[i] = 0;
     }
-    bool timerStart, isSolved, showLeaderboard, nameInput;
-    timerStart = isSolved = showLeaderboard = nameInput = false;
+    bool stopWatchStart, isSolved, showLeaderboard, nameInput;
+    stopWatchStart = isSolved = showLeaderboard = nameInput = false;
     while (window.isOpen()) {
         ostringstream out;
         Vector2i pos = Mouse::getPosition(window);
@@ -92,7 +92,7 @@ int main()
                     generateArray(gameBoard, boardSize);
                     timeLock = 0;
                     clock.restart();
-                    timerStart = false;
+                    stopWatchStart = false;
                     for (int i = 0; i < 3; i++) {
                         time[i] = 0;
                     }
@@ -117,7 +117,7 @@ int main()
                 generateArray(gameBoard, boardSize);
                 timeLock = 0;
                 clock.restart();
-                timerStart = false;
+                stopWatchStart = false;
                 for (int i = 0; i < 3; i++) {
                     time[i] = 0;
                 }
@@ -126,7 +126,7 @@ int main()
                 generateArray(gameBoard, boardSize);
                 timeLock = 0;
                 clock.restart();
-                timerStart = false;
+                stopWatchStart = false;
                 for (int i = 0; i < 3; i++) {
                     time[i] = 0;
                 }
@@ -156,7 +156,7 @@ int main()
                 clock.restart();
             } else {
                 currentMoveDelay = moveTimer.getElapsedTime().asMilliseconds();
-                if (timerStart) {
+                if (stopWatchStart) {
                     time[0] = clock.getElapsedTime().asSeconds() + timeLock;
                 } else {
                     clock.restart();
@@ -203,7 +203,7 @@ int main()
                 }
                 if (gameBoard[emptyElem[0]][emptyElem[1]] != 0) {
                     moveTimer.restart();
-                    timerStart = true;
+                    stopWatchStart = true;
                 }
                 for (int i = 1; i < boardSize; i++) {
                     for (int j = 1; j < boardSize; j++) {
@@ -224,10 +224,10 @@ int main()
             out << setfill('0') << setw(2) << time[2] << ":" << setfill('0')
                 << setw(2) << time[1] << ":" << setfill('0') << setw(2)
                 << time[0];
-            textTimer.setString(out.str());
+            textStopWatch.setString(out.str());
             out.str("");
-            textTimer.setPosition(textureMinSize, 0);
-            window.draw(textTimer);
+            textStopWatch.setPosition(textureMinSize, 0);
+            window.draw(textStopWatch);
             highScore.setPosition(textureMinSize, textureMinSize * 5);
             window.draw(highScore);
             window.display();
