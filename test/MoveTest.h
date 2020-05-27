@@ -11,14 +11,14 @@ class MoveTest : public CxxTest::TestSuite {
         **expGameBoard = new int *[boardSize];
 
 public:
-    void test_init_dinamic_matrix(void)
+    void testInitDinamicMatrix(void)
     {
         for (int i = 0; i < boardSize; i++) {
             gameBoard[i] = new int[boardSize];
             expGameBoard[i] = new int[boardSize];
         }
     }
-    void test_left_correctL(void) // леваяКлавиша_правильныйХод_леваяГрЭквив
+    void testLeftCorrectL(void) // леваяКлавиша_правильныйХод_леваяГрЭквив
     {
         dir = 1;
         for (i = 1; i < boardSize; i++) { // Исходное упорядочивание матрицы
@@ -40,7 +40,7 @@ public:
                 = expGameBoard[1][1];             // Возвращение
         gameBoard[1][1] = expGameBoard[1][1] = 0; // к исходному порядку
     }
-    void test_left_correctR(void)
+    void testLeftCorrectR(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[1][3]; // Перемещение
         gameBoard[1][3] = expGameBoard[1][3]
@@ -59,7 +59,7 @@ public:
         gameBoard[1][3] = expGameBoard[1][3] = expGameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_left_wrongL(void) // леваяКлавиша_ходВнеГраницПоля_леваяГрЭквив
+    void testLeftWrongL(void) // леваяКлавиша_ходВнеГраницПоля_леваяГрЭквив
     {
         emptyElem[0] = 1;
         emptyElem[1] = 0;
@@ -70,7 +70,7 @@ public:
             }
         }
     }
-    void test_left_wrongR(void)
+    void testLeftWrongR(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[1][4];
         gameBoard[1][4] = expGameBoard[1][4] = 0;
@@ -85,7 +85,7 @@ public:
         gameBoard[1][4] = expGameBoard[1][4] = gameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_right_correctL(void) // праваяКлавиша_правильныйХод_леваяГрЭквив
+    void testRightCorrectL(void) // праваяКлавиша_правильныйХод_леваяГрЭквив
     {
         dir = 2;
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[1][2];
@@ -101,7 +101,7 @@ public:
             }
         }
     }
-    void test_right_correctR(void)
+    void testRightCorrectR(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[1][4];
         gameBoard[1][4] = expGameBoard[1][4] = 0;
@@ -119,7 +119,7 @@ public:
         gameBoard[1][4] = expGameBoard[1][4] = expGameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_right_wrongL(void)
+    void testRightWrongL(void)
     {
         emptyElem[0] = emptyElem[1] = 1;
         moveF(dir, gameBoard, boardSize, emptyElem);
@@ -129,7 +129,7 @@ public:
             }
         }
     }
-    void test_right_wrongR(void)
+    void testRightWrongR(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[1][4];
         gameBoard[1][4] = expGameBoard[1][4] = 0;
@@ -144,7 +144,7 @@ public:
         gameBoard[1][4] = expGameBoard[1][4] = expGameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_up_correctU(void) // верхняяКлавиша_правильныйХод_верхняяГрЭквив
+    void testUpCorrectU(void) // верхняяКлавиша_правильныйХод_верхняяГрЭквив
     {
         dir = 3;
         emptyElem[0] = emptyElem[1] = 1;
@@ -159,7 +159,7 @@ public:
         gameBoard[2][1] = expGameBoard[2][1] = expGameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_up_correctD(void)
+    void testUpCorrectD(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[3][1];
         gameBoard[3][1] = expGameBoard[3][1] = 0;
@@ -177,7 +177,7 @@ public:
         gameBoard[3][1] = expGameBoard[3][1] = expGameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_up_wrongU(void)
+    void testUpWrongU(void)
     {
         emptyElem[0] = 0;
         emptyElem[1] = 1;
@@ -188,7 +188,7 @@ public:
             }
         }
     }
-    void test_up_wrongD(void)
+    void testUpWrongD(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[4][1];
         gameBoard[4][1] = expGameBoard[4][1] = 0;
@@ -203,7 +203,7 @@ public:
         gameBoard[4][1] = expGameBoard[4][1] = gameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_down_correctU(void) // нижняяКлавиша_правильныйХод_верхняяГрЭквив
+    void testDownCorrectU(void) // нижняяКлавиша_правильныйХод_верхняяГрЭквив
     {
         dir = 4;
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[2][1];
@@ -219,7 +219,7 @@ public:
             }
         }
     }
-    void test_down_correctD(void)
+    void testDownCorrectD(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[4][1];
         gameBoard[4][1] = expGameBoard[4][1] = 0;
@@ -237,7 +237,7 @@ public:
         gameBoard[4][1] = expGameBoard[4][1] = expGameBoard[1][1];
         gameBoard[1][1] = expGameBoard[1][1] = 0;
     }
-    void test_down_wrongU(void)
+    void testDownWrongU(void)
     {
         emptyElem[0] = emptyElem[1] = 1;
         moveF(dir, gameBoard, boardSize, emptyElem);
@@ -247,7 +247,7 @@ public:
             }
         }
     }
-    void test_down_wrongD(void)
+    void testDownWrongD(void)
     {
         gameBoard[1][1] = expGameBoard[1][1] = gameBoard[4][1];
         gameBoard[4][1] = expGameBoard[4][1] = 0;

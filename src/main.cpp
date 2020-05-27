@@ -27,7 +27,7 @@ int main()
     const int textureMinSize = 32;
     const int boardSize = 5;
     const int moveDelay = 250; // milliSeconds
-    vector<Result> vector_result;
+    vector<Result> vectorResult;
     Result result;
     RenderWindow window(
             VideoMode(width, height), "Fifteen 2020   ", Style::Close);
@@ -111,9 +111,9 @@ int main()
         }
         if (nameInput) {
             if (Keyboard::isKeyPressed(Keyboard::Y)) {
-                getResult(time, result, vector_result);
-                writeResult(result, vector_result);
-                readResult(result, vector_result);
+                getResult(time, result, vectorResult);
+                writeResult(result, vectorResult);
+                readResult(result, vectorResult);
                 generateArray(gameBoard, boardSize);
                 timeLock = 0;
                 clock.restart();
@@ -134,15 +134,15 @@ int main()
             }
         } else {
             if (showLeaderboard) {
-                fixFile(result, vector_result);
-                readResult(result, vector_result);
-                if (vector_result.size() <= 5) {
-                    for (int i = 0; i < int(vector_result.size()); i++) {
-                        out << i + 1 << ". " << vector_result[i].name << " - "
-                            << setfill('0') << setw(2) << vector_result[i].hours
+                fixFile(result, vectorResult);
+                readResult(result, vectorResult);
+                if (vectorResult.size() <= 5) {
+                    for (int i = 0; i < int(vectorResult.size()); i++) {
+                        out << i + 1 << ". " << vectorResult[i].name << " - "
+                            << setfill('0') << setw(2) << vectorResult[i].hours
                             << ":" << setfill('0') << setw(2)
-                            << vector_result[i].minutes << ":" << setfill('0')
-                            << setw(2) << vector_result[i].seconds << '\n';
+                            << vectorResult[i].minutes << ":" << setfill('0')
+                            << setw(2) << vectorResult[i].seconds << '\n';
                     }
                 } else if (vector_result.size() == 0) {
                     out << "Leaderboard is empty!\n";
@@ -151,7 +151,7 @@ int main()
                 out.str("");
                 textLeaderboard.setPosition(20, 24);
                 window.draw(textLeaderboard);
-                vector_result.clear();
+                vectorResult.clear();
                 timeLock = time[0];
                 clock.restart();
             } else {

@@ -14,7 +14,7 @@ using namespace std;
 
 int checkGeneration(int** gameBoard, const int boardSize)
 {
-    int chaos_index = 0, index = 0;
+    int chaosIndex = 0, index = 0;
     int* duplicate = new int[16];
 
     for (int i = 1; i < boardSize; i++) {
@@ -26,19 +26,19 @@ int checkGeneration(int** gameBoard, const int boardSize)
         if (duplicate[i]) {
             for (int j = 0; j < i; j++) {
                 if (duplicate[j] > duplicate[i]) {
-                    chaos_index++;
+                    chaosIndex++;
                 }
             }
         }
     }
     for (int i = 0; i < 16; ++i) {
         if (duplicate[i] == 0) {
-            chaos_index += 1 + i / 4;
+            chaosIndex += 1 + i / 4;
         }
     }
 
     delete[] duplicate;
-    return chaos_index;
+    return chaosIndex;
 }
 
 void generateArray(int** gameBoard, int boardSize)

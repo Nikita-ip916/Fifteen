@@ -11,13 +11,13 @@ class GenTest : public CxxTest::TestSuite {
     int** gameBoard = new int*[boardSize];
 
 public:
-    void test_init_dinamic_matrix(void)
+    void testInitDinamicMatrix(void)
     {
         for (int i = 0; i < boardSize; i++) {
             gameBoard[i] = new int[boardSize];
         }
     }
-    void test_gen(void)
+    void testGen(void)
     {
         for (int i = 0; i < 16; i++) {
             elemPresence[i] = 0;
@@ -82,7 +82,7 @@ public:
             TS_ASSERT_EQUALS(1, elemPresence[i]); // 1 - элемент присутствует,
         } // 0 - элемент отсутствует(ошибка),
     }     // >1 - элементов несколько(ошибка).
-    void test_check_gen_correct(void)
+    void testCheckGenCorrect(void)
     {
         for (int i = 1; i < boardSize; i++) { // Создание решаемой комбинации
             for (int j = 1; j < boardSize;
@@ -97,7 +97,7 @@ public:
         expIndex = 0;
         TS_ASSERT_EQUALS(expIndex, chaosIndex % 2);
     }
-    void test_check_gen_wrong(void)
+    void testCheckGenWrong(void)
     {
         gameBoard[4][2]
                 = 15; // Создание нерешаемой комбинации эквивалентной всем
