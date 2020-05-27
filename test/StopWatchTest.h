@@ -66,7 +66,7 @@ public:
         time[2] = 0;
     }
     void testTimeWoutChangesL() // значения, проходя через ф-ю не меняются
-                                  // левГрЭквив
+                                // левГрЭквив
     {
         stopWatch(time);
         for (i = 0; i < 3; i++) {
@@ -74,7 +74,7 @@ public:
         }
     }
     void testTimeWoutChangesR() // значения, проходя через ф-ю не меняются
-                                  // правГрЭквив
+                                // правГрЭквив
     {
         time[0] = expTime[0] = 59;
         time[1] = expTime[1] = 59;
