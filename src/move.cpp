@@ -1,4 +1,4 @@
-void moveF(int dir, int** gameBoard, const int boardSize, int* emptyElem)
+void moveElem(int dir, int** gameBoard, const int boardSize, int* emptyElem)
 {
     if (dir == 1 && emptyElem[1] < boardSize - 1 && emptyElem[1] > 0) {
         gameBoard[emptyElem[0]][emptyElem[1]]

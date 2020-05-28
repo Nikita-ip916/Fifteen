@@ -14,7 +14,7 @@ public:
             time[i] = expTime[i] = 0;
         }
         time[0] = -1;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -23,7 +23,7 @@ public:
     void testMinutesNegValue()
     {
         time[1] = -1;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -32,7 +32,7 @@ public:
     void testHoursNegValue()
     {
         time[2] = -1;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -41,7 +41,7 @@ public:
     void testSecondsOutofRange()
     {
         time[0] = 61;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -50,7 +50,7 @@ public:
     void testMinutesOutofRange()
     {
         time[1] = 60;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -59,7 +59,7 @@ public:
     void testHoursOutofRange()
     {
         time[2] = 24;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -68,7 +68,7 @@ public:
     void testTimeWoutChangesL() // значения, проходя через ф-ю не меняются
                                 // левГрЭквив
     {
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -79,7 +79,7 @@ public:
         time[0] = expTime[0] = 59;
         time[1] = expTime[1] = 59;
         time[2] = expTime[2] = 23;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         } // Сейчас и далее обнуление не обязательно, т.к. изменяются все
@@ -91,7 +91,7 @@ public:
         time[1] = 0;
         expTime[1] = time[1] + 1;
         time[2] = expTime[2] = 0;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -103,7 +103,7 @@ public:
         time[1] = 58;
         expTime[1] = time[1] + 1;
         time[2] = expTime[2] = 0;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -116,7 +116,7 @@ public:
         expTime[1] = 0;
         time[2] = 0;
         expTime[2] = 1;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -129,7 +129,7 @@ public:
         expTime[1] = 0;
         time[2] = 22;
         expTime[2] = 23;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }
@@ -142,7 +142,7 @@ public:
         expTime[1] = 0;
         time[2] = 23;
         expTime[2] = 0;
-        stopWatch(time);
+        changeTimeDigits(time);
         for (i = 0; i < 3; i++) {
             TS_ASSERT_EQUALS(expTime[i], time[i]);
         }

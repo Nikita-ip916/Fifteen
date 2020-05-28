@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-bool resourseCheck()
+bool checkResourse()
 {
     FILE* resourse;
     resourse = fopen("Numbers.jpg", "r");

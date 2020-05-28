@@ -35,7 +35,7 @@ int main()
     Font font;
     Image numbersimage, othersimage;
 
-    if (resourseCheck()) {
+    if (checkResourse()) {
         numbersimage.loadFromFile("Numbers.jpg");
         othersimage.loadFromFile("Others.jpg");
         font.loadFromFile("TimesNewRoman.ttf");
@@ -164,7 +164,7 @@ int main()
                     timeLock = 0;
                     clock.restart();
                 }
-                stopWatch(time);
+                changeTimeDigits(time);
                 if (Keyboard::isKeyPressed(Keyboard::Escape)) {
                     window.close();
                 }
@@ -180,25 +180,25 @@ int main()
                      || Keyboard::isKeyPressed(Keyboard::Left))
                     && currentMoveDelay > moveDelay) {
                     dir = 1;
-                    moveF(dir, gameBoard, boardSize, emptyElem);
+                    moveElem(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::D)
                          || Keyboard::isKeyPressed(Keyboard::Right))
                         && currentMoveDelay > moveDelay) {
                     dir = 2;
-                    moveF(dir, gameBoard, boardSize, emptyElem);
+                    moveElem(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::W)
                          || Keyboard::isKeyPressed(Keyboard::Up))
                         && currentMoveDelay > moveDelay) {
                     dir = 3;
-                    moveF(dir, gameBoard, boardSize, emptyElem);
+                    moveElem(dir, gameBoard, boardSize, emptyElem);
                 } else if (
                         (Keyboard::isKeyPressed(Keyboard::S)
                          || Keyboard::isKeyPressed(Keyboard::Down))
                         && currentMoveDelay > moveDelay) {
                     dir = 4;
-                    moveF(dir, gameBoard, boardSize, emptyElem);
+                    moveElem(dir, gameBoard, boardSize, emptyElem);
                 }
                 if (gameBoard[emptyElem[0]][emptyElem[1]] != 0) {
                     moveTimer.restart();

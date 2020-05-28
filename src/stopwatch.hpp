@@ -1,4 +1,4 @@
 #ifndef STOPWATCH_H
 #define STOPWATCH_H
-void stopWatch(int*);
+void changeTimeDigits(int*);
 #endif
