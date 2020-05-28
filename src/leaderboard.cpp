@@ -55,7 +55,7 @@ bool checkName(Result& result)
     return isCorrect;
 }
 
-void getResult(int* time, Result& result, vector<Result>& vector_result)
+void getResult(int* time, Result& result, vector<Result>& vectorResult)
 {
     fstream records(
             "records.txt",
@@ -66,10 +66,8 @@ void getResult(int* time, Result& result, vector<Result>& vector_result)
             cout << "Enter your name: ";
             getline(cin, result.name);
             if (!checkName(result))
-                cout << "\nName does not match:\nLength of at least 3 and "
-                        "no "
-                        "more than 10 characters, only numbers and letters "
-                        "of "
+                cout << "\nName does not match:\nLength of at least 3 and no "
+                        "more than 10 characters, only numbers and letters of "
                         "the Latin alphabet!\n";
         }
         result.seconds = time[0];
@@ -83,35 +81,35 @@ void getResult(int* time, Result& result, vector<Result>& vector_result)
     records.close();
 }
 
-void sortResult(int* index_array, vector<Result>& vector_result, int length)
+void sortResult(int* indexArray, vector<Result>& vectorResult, int length)
 {
     int k = 0;
     for (int i = 0; i < length; i++) {
         k = i;
         for (int j = i; j < length; j++) {
-            if (vector_result[index_array[k]].hours
-                > vector_result[index_array[j]].hours)
+            if (vectorResult[indexArray[k]].hours
+                > vectorResult[indexArray[j]].hours)
                 k = j;
             else if (
-                    vector_result[index_array[k]].hours
-                    == vector_result[index_array[j]].hours) {
-                if (vector_result[index_array[k]].minutes
-                    > vector_result[index_array[j]].minutes)
+                    vectorResult[indexArray[k]].hours
+                    == vectorResult[indexArray[j]].hours) {
+                if (vectorResult[indexArray[k]].minutes
+                    > vectorResult[indexArray[j]].minutes)
                     k = j;
                 else if (
-                        vector_result[index_array[k]].minutes
-                        == vector_result[index_array[j]].minutes) {
-                    if (vector_result[index_array[k]].seconds
-                        > vector_result[index_array[j]].seconds)
+                        vectorResult[indexArray[k]].minutes
+                        == vectorResult[indexArray[j]].minutes) {
+                    if (vectorResult[indexArray[k]].seconds
+                        > vectorResult[indexArray[j]].seconds)
                         k = j;
                 }
             }
         }
-        swap(index_array[i], index_array[k]);
+        swap(indexArray[i], indexArray[k]);
     }
 }
 
-void writeResult(Result& result, vector<Result>& vector_result)
+void writeResult(Result& result, vector<Result>& vectorResult)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
@@ -119,33 +117,33 @@ void writeResult(Result& result, vector<Result>& vector_result)
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
         if (checkName(result)) {
-            vector_result.push_back(result);
+            vectorResult.push_back(result);
         }
     }
-    int length = vector_result.size();
-    int* index_array = new int[length];
+    int length = vectorResult.size();
+    int* indexArray = new int[length];
     for (int i = 0; i < length; i++) {
-        index_array[i] = i;
+        indexArray[i] = i;
     }
-    sortResult(index_array, vector_result, length);
+    sortResult(indexArray, vectorResult, length);
     records.close();
     clearFile();
     ofstream newrecords("records.txt", ofstream::out);
-    if (vector_result.size() > 5) {
+    if (vectorResult.size() > 5) {
         length = 5;
     }
     bool isInLeaderboard = false;
     // Since the top 5 results will be displayed,
     // it makes no sense to store the rest.
     for (int i = 0; i < length; i++) {
-        newrecords << vector_result[index_array[i]].name << " "
-                   << vector_result[index_array[i]].hours << " "
-                   << vector_result[index_array[i]].minutes << " "
-                   << vector_result[index_array[i]].seconds << '\n';
-        if ((vector_result[index_array[i]].name == result.name)
-            && (vector_result[index_array[i]].hours == result.hours)
-            && (vector_result[index_array[i]].minutes == result.minutes)
-            && (vector_result[index_array[i]].seconds == result.seconds)) {
+        newrecords << vectorResult[indexArray[i]].name << " "
+                   << vectorResult[indexArray[i]].hours << " "
+                   << vectorResult[indexArray[i]].minutes << " "
+                   << vectorResult[indexArray[i]].seconds << '\n';
+        if ((vectorResult[indexArray[i]].name == result.name)
+            && (vectorResult[indexArray[i]].hours == result.hours)
+            && (vectorResult[indexArray[i]].minutes == result.minutes)
+            && (vectorResult[indexArray[i]].seconds == result.seconds)) {
             isInLeaderboard = true;
         }
     }
@@ -155,52 +153,52 @@ void writeResult(Result& result, vector<Result>& vector_result)
         cout << "\nYour result did not hit the table!\nTry hard next "
                 "time!\n";
     }
-    delete[] index_array;
+    delete[] indexArray;
     newrecords.close();
-    vector_result.clear();
+    vectorResult.clear();
 }
-void readResult(Result& result, vector<Result>& vector_result)
+void readResult(Result& result, vector<Result>& vectorResult)
 {
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
     for (int i = 0; i < countStr(result); i++) {
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
-        vector_result.push_back(result);
+        vectorResult.push_back(result);
     }
     records.close();
 }
-void fixFile(Result& result, vector<Result>& vector_result)
+void fixFile(Result& result, vector<Result>& vectorResult)
 {
-    vector_result.clear();
+    vectorResult.clear();
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
     for (int i = 0; i < countStr(result); i++) {
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
         if (checkName(result)) {
-            vector_result.push_back(result);
+            vectorResult.push_back(result);
         }
     }
     records.close();
     clearFile();
-    int length = vector_result.size();
-    int* index_array = new int[length];
+    int length = vectorResult.size();
+    int* indexArray = new int[length];
     for (int i = 0; i < length; i++) {
-        index_array[i] = i;
+        indexArray[i] = i;
     }
-    sortResult(index_array, vector_result, length);
+    sortResult(indexArray, vectorResult, length);
     if (length > 5) {
         length = 5;
     }
     ofstream newrecords("records.txt", ofstream::out);
     for (int i = 0; i < length; i++) {
-        newrecords << vector_result[index_array[i]].name << " "
-                   << vector_result[index_array[i]].hours << " "
-                   << vector_result[index_array[i]].minutes << " "
-                   << vector_result[index_array[i]].seconds << '\n';
+        newrecords << vectorResult[indexArray[i]].name << " "
+                   << vectorResult[indexArray[i]].hours << " "
+                   << vectorResult[indexArray[i]].minutes << " "
+                   << vectorResult[indexArray[i]].seconds << '\n';
     }
-    delete[] index_array;
+    delete[] indexArray;
     newrecords.close();
-    vector_result.clear();
+    vectorResult.clear();
 }

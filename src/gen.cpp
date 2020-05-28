@@ -12,13 +12,13 @@ using namespace std;
  * повторно, пока не будет решаться.
  */
 
-int checkGeneration(int** gameBoard, const int n)
+int checkGeneration(int** gameBoard, const int boardSize)
 {
-    int chaos_index = 0, index = 0;
+    int chaosIndex = 0, index = 0;
     int* duplicate = new int[16];
 
-    for (int i = 1; i < n; i++) {
-        for (int j = 1; j < n; j++) {
+    for (int i = 1; i < boardSize; i++) {
+        for (int j = 1; j < boardSize; j++) {
             duplicate[index++] = gameBoard[i][j];
         }
     }
@@ -26,26 +26,26 @@ int checkGeneration(int** gameBoard, const int n)
         if (duplicate[i]) {
             for (int j = 0; j < i; j++) {
                 if (duplicate[j] > duplicate[i]) {
-                    chaos_index++;
+                    chaosIndex++;
                 }
             }
         }
     }
     for (int i = 0; i < 16; ++i) {
         if (duplicate[i] == 0) {
-            chaos_index += 1 + i / 4;
+            chaosIndex += 1 + i / 4;
         }
     }
 
     delete[] duplicate;
-    return chaos_index;
+    return chaosIndex;
 }
 
-void generateArray(int** gameBoard, int n)
+void generateArray(int** gameBoard, int boardSize)
 {
     int c = 1;
-    for (int i = 1; i < n; i++) {
-        for (int j = 1; j < n; j++) {
+    for (int i = 1; i < boardSize; i++) {
+        for (int j = 1; j < boardSize; j++) {
             gameBoard[i][j] = c;
             if (c++ == 16) {
                 gameBoard[i][j] = 0;
@@ -55,12 +55,12 @@ void generateArray(int** gameBoard, int n)
 
     int a, b;
     do {
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < n; j++) {
+        for (int i = 1; i < boardSize; i++) {
+            for (int j = 1; j < boardSize; j++) {
                 a = rand() % 4 + 1;
                 b = rand() % 4 + 1;
                 swap(gameBoard[i][j], gameBoard[a][b]);
             }
         }
-    } while (checkGeneration(gameBoard, n) % 2 != 0);
+    } while (checkGeneration(gameBoard, boardSize) % 2 != 0);
 }

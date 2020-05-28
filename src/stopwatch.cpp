@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-void stopWatch(int* time)
+void changeTimeDigits(int* time)
 {
     if (time[0] < 0 || time[1] < 0 || time[2] < 0) {
         time[0] = time[1] = time[2] = 0;
