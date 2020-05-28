@@ -104,8 +104,7 @@ int main()
         window.clear(Color::Black);
         if (isSolved) {
             cout << "Push the button (y/n) anywhere except console to enter "
-                    "(or not) name for leaderboard"
-                 << endl;
+                    "(or not) name for leaderboard\n";
             nameInput = true;
             isSolved = false;
         }
@@ -144,7 +143,7 @@ int main()
                             << vectorResult[i].minutes << ":" << setfill('0')
                             << setw(2) << vectorResult[i].seconds << '\n';
                     }
-                } else if (vector_result.size() == 0) {
+                } else if (vectorResult.size() == 0) {
                     out << "Leaderboard is empty!\n";
                 }
                 textLeaderboard.setString(out.str());

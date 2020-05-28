@@ -153,7 +153,7 @@ void writeResult(Result& result, vector<Result>& vectorResult)
         cout << "\nYour result did not hit the table!\nTry hard next "
                 "time!\n";
     }
-    delete[] index_array;
+    delete[] indexArray;
     newrecords.close();
     vectorResult.clear();
 }
@@ -168,37 +168,37 @@ void readResult(Result& result, vector<Result>& vectorResult)
     }
     records.close();
 }
-void fixFile(Result& result, vector<Result>& vector_result)
+void fixFile(Result& result, vector<Result>& vectorResult)
 {
-    vector_result.clear();
+    vectorResult.clear();
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
     for (int i = 0; i < countStr(result); i++) {
         records >> result.name >> result.hours >> result.minutes
                 >> result.seconds;
         if (checkName(result)) {
-            vector_result.push_back(result);
+            vectorResult.push_back(result);
         }
     }
     records.close();
     clearFile();
-    int length = vector_result.size();
-    int* index_array = new int[length];
+    int length = vectorResult.size();
+    int* indexArray = new int[length];
     for (int i = 0; i < length; i++) {
-        index_array[i] = i;
+        indexArray[i] = i;
     }
-    sortResult(index_array, vector_result, length);
+    sortResult(indexArray, vectorResult, length);
     if (length > 5) {
         length = 5;
     }
     ofstream newrecords("records.txt", ofstream::out);
     for (int i = 0; i < length; i++) {
-        newrecords << vector_result[index_array[i]].name << " "
-                   << vector_result[index_array[i]].hours << " "
-                   << vector_result[index_array[i]].minutes << " "
-                   << vector_result[index_array[i]].seconds << '\n';
+        newrecords << vectorResult[indexArray[i]].name << " "
+                   << vectorResult[indexArray[i]].hours << " "
+                   << vectorResult[indexArray[i]].minutes << " "
+                   << vectorResult[indexArray[i]].seconds << '\n';
     }
-    delete[] index_array;
+    delete[] indexArray;
     newrecords.close();
-    vector_result.clear();
+    vectorResult.clear();
 }
