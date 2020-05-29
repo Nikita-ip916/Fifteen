@@ -1,4 +1,4 @@
-#ifndef RESOURSECHECK_H
-#define RESOURSECHECK_H
+#ifndef RESOURSECHECK_HPP
+#define RESOURSECHECK_HPP
 bool checkResourse(void);
 #endif

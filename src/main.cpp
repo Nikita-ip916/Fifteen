@@ -110,7 +110,7 @@ int main()
         }
         if (nameInput) {
             if (Keyboard::isKeyPressed(Keyboard::Y)) {
-                getResult(time, result, vectorResult);
+                getResult(time, result);
                 writeResult(result, vectorResult);
                 readResult(result, vectorResult);
                 generateArray(gameBoard, boardSize);

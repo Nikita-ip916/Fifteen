@@ -3,15 +3,6 @@
 #include <iostream>
 using namespace std;
 
-/*
- * Задача Лойда описывается в checkGeneration();
- *
- * Данная функция проверит сгенерированную матрицу чисел и вернёт
- * индекс хаотичности (он же параметр беспорядка).
- * Чётный параметр - ряд решается, иначе нет и будет генерировать
- * повторно, пока не будет решаться.
- */
-
 int checkGeneration(int** gameBoard, const int boardSize)
 {
     int chaosIndex = 0, index = 0;
@@ -43,23 +34,23 @@ int checkGeneration(int** gameBoard, const int boardSize)
 
 void generateArray(int** gameBoard, int boardSize)
 {
-    int c = 1;
+    int number = 1;
     for (int i = 1; i < boardSize; i++) {
         for (int j = 1; j < boardSize; j++) {
-            gameBoard[i][j] = c;
-            if (c++ == 16) {
+            gameBoard[i][j] = number;
+            if (number++ == 16) {
                 gameBoard[i][j] = 0;
             }
         }
     }
 
-    int a, b;
+    int firstIndex, secondIndex;
     do {
         for (int i = 1; i < boardSize; i++) {
             for (int j = 1; j < boardSize; j++) {
-                a = rand() % 4 + 1;
-                b = rand() % 4 + 1;
-                swap(gameBoard[i][j], gameBoard[a][b]);
+                firstIndex = rand() % 4 + 1;
+                secondIndex = rand() % 4 + 1;
+                swap(gameBoard[i][j], gameBoard[firstIndex][secondIndex]);
             }
         }
     } while (checkGeneration(gameBoard, boardSize) % 2 != 0);

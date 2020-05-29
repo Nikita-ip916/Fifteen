@@ -1,4 +1,4 @@
-#ifndef MOVE_H
-#define MOVE_H
+#ifndef MOVE_HPP
+#define MOVE_HPP
 void moveElem(int, int**, const int, int*);
 #endif

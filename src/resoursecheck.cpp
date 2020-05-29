@@ -9,14 +9,14 @@ bool checkResourse()
     if (resourse) {
         fclose(resourse);
     } else {
-        cout << "Error: Numbers.jpg not found. Exit programm." << endl;
+        cout << "Error: Numbers.jpg not found. Exit programm.\n";
         return false;
     }
     resourse = fopen("Others.jpg", "r");
     if (resourse) {
         fclose(resourse);
     } else {
-        cout << "Error: Others.jpg not found. Exit programm." << endl;
+        cout << "Error: Others.jpg not found. Exit programm.\n";
         return false;
     }
     resourse = fopen("TimesNewRoman.ttf", "r");
@@ -24,7 +24,7 @@ bool checkResourse()
         fclose(resourse);
         return true;
     } else {
-        cout << "Error: TimesNewRoman.ttf not found. Exit programm." << endl;
+        cout << "Error: TimesNewRoman.ttf not found. Exit programm.\n";
         return false;
     }
 }
