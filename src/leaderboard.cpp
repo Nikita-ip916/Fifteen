@@ -72,6 +72,9 @@ int countStr(Result& result)
                 isCorrectResult = false;
             } else {
                 result.hours = atoi(buffer.c_str());
+                if (result.hours > 23) {
+                    isCorrectResult = false;
+                }
             }
             buffer.clear();
             getline(records, buffer, ' ');
@@ -80,6 +83,9 @@ int countStr(Result& result)
                     isCorrectResult = false;
                 } else {
                     result.minutes = atoi(buffer.c_str());
+                    if (result.minutes > 59) {
+                        isCorrectResult = false;
+                    }
                 }
                 buffer.clear();
                 getline(records, buffer, '\n');
@@ -88,6 +94,9 @@ int countStr(Result& result)
                         isCorrectResult = false;
                     } else {
                         result.seconds = atoi(buffer.c_str());
+                        if (result.seconds > 59) {
+                            isCorrectResult = false;
+                        }
                     }
                 }
             }
@@ -120,6 +129,9 @@ void readResult(Result& result, vector<Result>& vectorResult)
                 isCorrectResult = false;
             } else {
                 result.hours = atoi(buffer.c_str());
+                if (result.hours > 23) {
+                    isCorrectResult = false;
+                }
             }
             buffer.clear();
             getline(records, buffer, ' ');
@@ -128,6 +140,9 @@ void readResult(Result& result, vector<Result>& vectorResult)
                     isCorrectResult = false;
                 } else {
                     result.minutes = atoi(buffer.c_str());
+                    if (result.minutes > 59) {
+                        isCorrectResult = false;
+                    }
                 }
                 buffer.clear();
                 getline(records, buffer, '\n');
@@ -136,6 +151,9 @@ void readResult(Result& result, vector<Result>& vectorResult)
                         isCorrectResult = false;
                     } else {
                         result.seconds = atoi(buffer.c_str());
+                        if (result.seconds > 59) {
+                            isCorrectResult = false;
+                        }
                     }
                 }
             }
