@@ -224,6 +224,11 @@ void sortResult(int* indexArray, vector<Result>& vectorResult, int length)
 
 void writeResult(Result& result, vector<Result>& vectorResult)
 {
+    Result currentResult;
+    currentResult.name = result.name;
+    currentResult.hours = result.hours;
+    currentResult.minutes = result.minutes;
+    currentResult.seconds = result.seconds;
     readResult(result, vectorResult);
     ifstream records(
             "records.txt", ifstream::binary | ifstream::app | ifstream::in);
@@ -247,10 +252,10 @@ void writeResult(Result& result, vector<Result>& vectorResult)
                    << vectorResult[indexArray[i]].hours << " "
                    << vectorResult[indexArray[i]].minutes << " "
                    << vectorResult[indexArray[i]].seconds << '\n';
-        if ((vectorResult[indexArray[i]].name == result.name)
-            && (vectorResult[indexArray[i]].hours == result.hours)
-            && (vectorResult[indexArray[i]].minutes == result.minutes)
-            && (vectorResult[indexArray[i]].seconds == result.seconds)) {
+        if ((vectorResult[indexArray[i]].name == currentResult.name)
+            && (vectorResult[indexArray[i]].hours == currentResult.hours)
+            && (vectorResult[indexArray[i]].minutes == currentResult.minutes)
+            && (vectorResult[indexArray[i]].seconds == currentResult.seconds)) {
             isInLeaderboard = true;
         }
     }
