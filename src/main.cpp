@@ -135,7 +135,9 @@ int main()
             if (showLeaderboard) {
                 fixFile(result, vectorResult);
                 readResult(result, vectorResult);
-                if (vectorResult.size() <= 5) {
+                if (vectorResult.size() == 0) {
+                    out << "Leaderboard is empty!\n";
+                } else if (vectorResult.size() <= 5) {
                     for (int i = 0; i < int(vectorResult.size()); i++) {
                         out << i + 1 << ". " << vectorResult[i].name << " - "
                             << setfill('0') << setw(2) << vectorResult[i].hours
@@ -143,8 +145,6 @@ int main()
                             << vectorResult[i].minutes << ":" << setfill('0')
                             << setw(2) << vectorResult[i].seconds << '\n';
                     }
-                } else if (vectorResult.size() == 0) {
-                    out << "Leaderboard is empty!\n";
                 }
                 textLeaderboard.setString(out.str());
                 out.str("");
