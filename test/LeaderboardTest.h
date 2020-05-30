@@ -26,7 +26,6 @@ class LeaderboardTest : public CxxTest::TestSuite {
                {"First", 0, 0, 50},
                {"Fourth", 0, 1, 51},
                {"Second", 0, 0, 51}};
-    vector<int>::iterator it;
 
 public:
     void testSortNoRepetition(void)
