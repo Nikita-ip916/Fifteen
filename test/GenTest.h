@@ -26,56 +26,7 @@ public:
         generateArray(gameBoard, boardSize);
         for (int i = 1; i < boardSize; i++) {
             for (int j = 1; j < boardSize; j++) {
-                switch (gameBoard[i][j]) {
-                case 0:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 1:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 2:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 3:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 4:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 5:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 6:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 7:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 8:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 9:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 10:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 11:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 12:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 13:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 14:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                case 15:
-                    elemPresence[gameBoard[i][j]] += 1;
-                    break;
-                }
+                elemPresence[gameBoard[i][j]] += 1;
             }
         }
         for (int i = 0; i < 16; i++) {
