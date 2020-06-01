@@ -3,6 +3,5 @@
 *.o
 *~
 *.exe
-bin/runner
-bin/out
+bin/*
 build/test/*.cpp

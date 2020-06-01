@@ -12,24 +12,24 @@ struct Result {
 } result;
 
 class LeaderboardTest : public CxxTest::TestSuite {
-    vector<Result> expVectorResult
-            = {{"First", 0, 0, 50},
-               {"Second", 0, 0, 51},
-               {"Third", 0, 1, 50},
-               {"Fourth", 0, 1, 51},
-               {"Fifth", 1, 0, 50},
-               {"Sixth", 1, 0, 51}};
-    vector<Result> vectorResult
-            = {{"Sixth", 1, 0, 51},
-               {"Third", 0, 1, 50},
-               {"Fifth", 1, 0, 50},
-               {"First", 0, 0, 50},
-               {"Fourth", 0, 1, 51},
-               {"Second", 0, 0, 51}};
+    vector<Result> expVectorResult;
+    vector<Result> vectorResult;
 
 public:
     void testSortNoRepetition(void)
     {
+        expVectorResult.push_back({"First", 0, 0, 50});
+        expVectorResult.push_back({"Second", 0, 0, 51});
+        expVectorResult.push_back({"Third", 0, 1, 50});
+        expVectorResult.push_back({"Fourth", 0, 1, 51});
+        expVectorResult.push_back({"Fifth", 1, 0, 50});
+        expVectorResult.push_back({"Sixth", 1, 0, 51});
+        vectorResult.push_back({"Sixth", 1, 0, 51});
+        vectorResult.push_back({"Third", 0, 1, 50});
+        vectorResult.push_back({"Fifth", 1, 0, 50});
+        vectorResult.push_back({"First", 0, 0, 50});
+        vectorResult.push_back({"Fourth", 0, 1, 51});
+        vectorResult.push_back({"Second", 0, 0, 51});
         int length = vectorResult.size();
         int* indexArray = new int[length];
         for (int i = 0; i < length; i++) {

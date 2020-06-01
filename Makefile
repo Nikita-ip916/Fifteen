@@ -1,5 +1,6 @@
-CC = g++
-CFLAGS = -Wall -Werror -c
+CXX = g++
+CXXFLAGS = -Wall -Werror
+LIB = -std=c++11
 SFML = -lsfml-graphics -lsfml-window -lsfml-system
 SFML2 = -I SFML-2.5.1/include -L SFML-2.5.1/lib
 OUT = out
@@ -10,24 +11,45 @@ DIR4 = test
 PRE = cxxtestgen --error-printer
 RUN = runner
 .PHONY: all prog test runprog clean
-all: prog
-prog:
-		$(CC) -o $(DIR)/$(DIR3)/main.o $(SFML2) $(CFLAGS) $(DIR3)/main.cpp
-		$(CC) -o $(DIR)/$(DIR3)/tgen.o $(CFLAGS) $(DIR3)/gen.cpp
-		$(CC) -o $(DIR)/$(DIR3)/out.o $(CFLAGS) $(DIR3)/out.cpp
-		$(CC) -o $(DIR)/$(DIR3)/tstopwatch.o $(CFLAGS) $(DIR3)/stopwatch.cpp
-		$(CC) -o $(DIR)/$(DIR3)/tmove.o $(CFLAGS) $(DIR3)/move.cpp
-		$(CC) -o $(DIR)/$(DIR3)/tleaderboard.o $(CFLAGS) $(DIR3)/leaderboard.cpp
-		$(CC) -o $(DIR)/$(DIR3)/resoursecheck.o $(CFLAGS) $(DIR3)/resoursecheck.cpp
-		$(CC) -o $(DIR)/$(DIR3)/check.o $(CFLAGS) $(DIR3)/check.cpp
-		$(CC) $(DIR)/$(DIR3)/*.o -o $(DIR2)/$(OUT) $(SFML2) $(SFML)
-test:
-		$(PRE) -o $(DIR)/$(DIR4)/$(RUN).cpp $(DIR4)/*.h
-		$(CC) -I $(DIR4) -I $(DIR3) $(DIR)/$(DIR4)/$(RUN).cpp $(DIR)/$(DIR3)/t*.o -o $(DIR2)/$(RUN)
-		./$(DIR2)/$(RUN) --help-tests
-		./$(DIR2)/$(RUN)
+all: bin/$(OUT)
+
+bin/$(OUT): build/src/main.o build/src/gen.o build/src/stopwatch.o build/src/move.o build/src/leaderboard.o build/src/resoursecheck.o build/src/check.o
+		$(CXX) build/src/main.o build/src/gen.o build/src/stopwatch.o build/src/move.o build/src/leaderboard.o build/src/resoursecheck.o build/src/check.o -o $@ $(SFML2) $(SFML) $(LIB)
+
+build/src/main.o: src/main.cpp
+		$(CXX) $(SFML2) $(CXXFLAGS) -I src -c $< -o $@ $(LIB)
+
+build/src/gen.o: src/gen.cpp
+		$(CXX) $(CXXFLAGS) -I src -c $< -o $@ $(LIB)
+
+build/src/stopwatch.o: src/stopwatch.cpp
+		$(CXX) $(CXXFLAGS) -I src -c $< -o $@ $(LIB)
+
+build/src/move.o: src/move.cpp
+		$(CXX) $(CXXFLAGS) -I src -c $< -o $@ $(LIB)
+
+build/src/leaderboard.o: src/leaderboard.cpp
+		$(CXX) $(CXXFLAGS) -I src -c $< -o $@ $(LIB)
+
+build/src/resoursecheck.o: src/resoursecheck.cpp
+		$(CXX) $(CXXFLAGS) -I src -c $< -o $@ $(LIB)
+
+build/src/check.o: src/check.cpp
+		$(CXX) $(CXXFLAGS) -I src -c $< -o $@ $(LIB)
+
+bin/$(RUN): build/test/$(RUN).cpp build/src/gen.o build/src/stopwatch.o build/src/move.o build/src/leaderboard.o
+		$(CXX) -I test -I src build/test/$(RUN).cpp build/src/gen.o build/src/stopwatch.o build/src/move.o build/src/leaderboard.o -o $@ $(LIB)
+
+build/test/$(RUN).cpp:
+		$(PRE) test/*.h -o $@
+
 runprog:
-		./$(DIR2)/$(OUT)
+		./bin/$(OUT)
+
+test: bin/$(RUN)
+		./$< --help-tests
+		./$<
+
 clean:
-		rm -rf $(DIR2)/$(OUT) $(DIR2)/$(RUN)
-		rm -rf $(DIR)/$(DIR3)/*.o $(DIR)/$(DIR4)/*.cpp
+		rm -rf bin/$(OUT) bin/$(RUN)
+		rm -rf build/src/*.o build/test/*.cpp
