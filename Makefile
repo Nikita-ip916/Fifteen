@@ -3,14 +3,10 @@ CXXFLAGS = -Wall -Werror
 LIB = -std=c++11
 SFML = -lsfml-graphics -lsfml-window -lsfml-system
 SFML2 = -I SFML-2.5.1/include -L SFML-2.5.1/lib
-OUT = out
-DIR = build
-DIR2 = bin
-DIR3 = src
-DIR4 = test
+OUT = fifteen
 PRE = cxxtestgen --error-printer
 RUN = runner
-.PHONY: all prog test runprog clean
+.PHONY: all test runprog clean
 all: bin/$(OUT)
 
 bin/$(OUT): build/src/main.o build/src/gen.o build/src/stopwatch.o build/src/move.o build/src/leaderboard.o build/src/resoursecheck.o build/src/check.o
